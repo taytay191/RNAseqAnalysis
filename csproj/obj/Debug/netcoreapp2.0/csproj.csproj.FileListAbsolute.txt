@@ -1,0 +1,10 @@
+C:\Programs\RNAseqAnalysis\csproj\bin\Debug\netcoreapp2.0\csproj.deps.json
+C:\Programs\RNAseqAnalysis\csproj\bin\Debug\netcoreapp2.0\csproj.runtimeconfig.json
+C:\Programs\RNAseqAnalysis\csproj\bin\Debug\netcoreapp2.0\csproj.runtimeconfig.dev.json
+C:\Programs\RNAseqAnalysis\csproj\bin\Debug\netcoreapp2.0\csproj.dll
+C:\Programs\RNAseqAnalysis\csproj\bin\Debug\netcoreapp2.0\csproj.pdb
+C:\Programs\RNAseqAnalysis\csproj\obj\Debug\netcoreapp2.0\csproj.csproj.CoreCompileInputs.cache
+C:\Programs\RNAseqAnalysis\csproj\obj\Debug\netcoreapp2.0\csproj.AssemblyInfoInputs.cache
+C:\Programs\RNAseqAnalysis\csproj\obj\Debug\netcoreapp2.0\csproj.AssemblyInfo.cs
+C:\Programs\RNAseqAnalysis\csproj\obj\Debug\netcoreapp2.0\csproj.dll
+C:\Programs\RNAseqAnalysis\csproj\obj\Debug\netcoreapp2.0\csproj.pdb
