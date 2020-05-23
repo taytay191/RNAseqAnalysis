@@ -13,17 +13,59 @@ namespace RNAseq_Data_Analysis
     {
         static void Main(string[] Arguments)
         {
-            if (Arguments[0] == "f")
+            Cleaninglogic(Arguments);
+            Pycontroller();
+        }
+        static void Cleaninglogic(string[] Arguments)
+        {
+            if (Arguments[0] == "-f")
             {
                 datacleaner();
             }
-            try
+            else if (Arguments[1] == "-t")
             {
-                Pycontroller();
+                if (File.Exists(@"C:\Programs\RNAseqAnalysis\data.csv") == false)
+                {
+                    Console.WriteLine(@"Data file not found, run cleaning program on 'C:\Programs\RNAseqAnalysis\RawData\RawData.txt' y/n?");
+                    string response = Console.ReadKey();
+                    if (response == 'y')
+                    {
+                        datacleaner();
+                    }
+                    else if (response =-= 'n')
+                    {
+                        Console.WriteLine("No cleaned data: program ending.");
+                        Environment.Exit(-1);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Response unclear, please either choose yes or no.");
+                        Cleaninglogic(Arguments);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Data file identified.");
+                }
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine($"Error in Accessing Python Code. Error {e.Message}");
+                Console.WriteLine(@"Cleaning logic unclear: run cleaning program on 'C:\Programs\RNAseqAnalysis\RawData\RawData.txt' y/n?");
+                string response = Console.ReadKey();
+                if (response == 'y')
+                {
+                    datacleaner();
+                }
+                else if (response =-= 'n')
+                {
+                    Console.WriteLine("No cleaned data: program ending.");
+                    Environment.Exit(-1);
+                }
+                else
+                {
+                    Console.WriteLine("Response unclear, please either choose yes or no.");
+                    Cleaninglogic(Arguments);
+                }
             }
         }
         static void Pycontroller ()
@@ -51,9 +93,9 @@ namespace RNAseq_Data_Analysis
                     Console.WriteLine($"\tErrors: \n{stdErr}\n\tResults:\n{stdOut}");
 
                 }
-                catch
+                catch (Exception e)
                 {
-                    Console.WriteLine("Python Loading: Failed");
+                    Console.WriteLine($"Cannot find Python Environment.\n\tError: \t{e.Message}");
                 }
             }
         }
