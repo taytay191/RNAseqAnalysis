@@ -28,22 +28,34 @@ namespace RNAseq_Data_Analysis
         }
         static void Pycontroller ()
         {
-            var psi = new ProcessStartInfo();
-            psi.FileName = @"C:\Program Files\Python36\python.exe";
-            var script = @"C:\Programs\RNAseqAnalysis\linearregressionmodel.py";
-            var patharg = @"C:\Programs\RNAseqAnalysis\data.csv";
-            psi.Arguments = string.Format("\"{0}\"\"{1}\"", script, patharg);
-            psi.UseShellExecute = false;
-            psi.CreateNoWindow = true;
-            psi.RedirectStandardOutput = true;
-            psi.RedicrectStandardError = true;
-            var errors, result = "";
-            using (var process = Process.Start(psi))
+            string stdOut,stdErr = "None";
+            using (var proc = new Process())
             {
-                errors = process.StandardError.ReadToEnd();
-                result = process.StandardOutput.ReadToEnd();
+                try
+                {
+                    ProcessStartInfo procsi = new ProcessStartInfo();
+                    procsi.FileName = @"C:\Program Files\Python36\python.exe";
+                    var script = @"C:\Programs\RNAseqAnalysis\linearregressionmodel.py";
+                    var patharg = @"C:\Programs\RNAseqAnalysis\data.csv";
+                    procsi.Arguments = string.Format("\"{0}\" \"{1}\"", script, patharg);
+                    procsi.CreateNoWindow = true;
+                    procsi.UseShellExecute = false;
+                    procsi.RedirectStandardOutput = true;
+                    procsi.RedirectStandardError = true;
+                    procsi.RedirectStandardInput = true;
+                    proc.StartInfo = procsi;
+                    proc.Start();
+                    Console.WriteLine("Python Loading: Success");
+                    stdOut = proc.StandardOutput.ReadToEnd();
+                    stdErr = proc.StandardError.ReadToEnd();
+                    Console.WriteLine($"\tErrors: \n{stdErr}\n\tResults:\n{stdOut}");
+
+                }
+                catch
+                {
+                    Console.WriteLine("Python Loading: Failed");
+                }
             }
-            Console.WriteLine($"Errors: {errors}, Results: {result}");
         }
         static void datacleaner()
         {
