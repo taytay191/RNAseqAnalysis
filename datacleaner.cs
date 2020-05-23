@@ -69,7 +69,7 @@ namespace RNAseq_Data_Analysis
     {
         static void Main(string[] args)
         {
-            string origin = @"C:\DataStorage\Rawtxt";
+            string origin = @"\Rawtxt";
             string[] set = Pathfinder(origin);
             int q = 1;
             List<Patient> data = new List<Patient>();
@@ -126,7 +126,7 @@ namespace RNAseq_Data_Analysis
                 Console.WriteLine($"Patient Data for UUID {p.UUID} completed as line {num + 1}, and index {num}.");
                 num++;
             }
-            File.WriteAllLines(@"C:\DataStorage\data.csv", ans);
+            File.WriteAllLines(@"\data.csv", ans);
         }
         static List<string> fullartlist(List<Patient> data)
         {
@@ -141,12 +141,12 @@ namespace RNAseq_Data_Analysis
             }
             List<string> susinct = comp.Distinct().ToList();
             string susinctstring = String.Join(",", susinct.ToArray());
-            File.WriteAllLines(@"C:\DataStorage\ATR.csv", susinct);
+            File.WriteAllLines(@"\ATR.csv", susinct);
             return susinct;
         }
         static double idsurvival(string UUID)
         {
-            string[] list = File.ReadAllLines(@"C:\DataStorage\Survival\Survival.txt");
+            string[] list = File.ReadAllLines(@"\Survival.txt");
             double q = 0;
             foreach (string s in list)
             {

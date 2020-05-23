@@ -4,7 +4,7 @@ import numpy as np
 from numpy import array
 from sklearn import linear_model
 
-data = pandas.read_csv("C:\DataStorage\data.csv")
+data = pandas.read_csv("\data.csv")
 print("Data Collection: Success")
 X = data.drop(["UUID", "Survival"], axis = 1)
 Y = data.Survival
