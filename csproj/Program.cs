@@ -3,8 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.ExceptionServices;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Transactions;
 
 
 namespace RNAseq_Data_Analysis
@@ -13,8 +16,54 @@ namespace RNAseq_Data_Analysis
     {
         static void Main(string[] Arguments)
         {
-            Cleaninglogic(Arguments);
-            Pycontroller();
+            //Cleaninglogic(Arguments);
+            //Pycontroller();
+            //Console.WriteLine(Arguments[1]);
+            int interval = 100;
+            WDGen(interval);
+        }
+        static void WDGen(int interval)
+        {
+            string[] pathes = Pathfinder(@"C:\Programs\RNAseqAnalysis\Rawtxt");
+            string UUID = Getid(pathes[0]);
+            double survival = idsurvival(UUID);
+            Patient original =  TxttoPatient(pathes[0], survival, UUID);
+            var arts = new List<Patient>();
+            arts.Add(original);
+            List<string> artlist = fullartlist(arts);
+            int arraysize = original.GeneInfo.Count;
+            int[] referencerow = new int[arraysize];
+            int itemp = 0;
+            StringBuilder sb = new StringBuilder();
+            sb.Append(String.Join(",",artlist.ToArray()));
+            sb.Append(Environment.NewLine);
+            foreach (GeneInfoModel gene in original.GeneInfo)
+            {
+                referencerow[itemp] = Convert.ToInt32(gene.Value);
+            }
+            for (int i = 0; i < arraysize; i++)
+            {
+                int[] thisrow = new int[arraysize+1];
+                Array.Copy(referencerow, thisrow, arraysize);
+                thisrow[i] += interval;
+                var name = original.GeneInfo[i].GeneName;
+                sb.Append($"{name}");
+                foreach (int q in thisrow)
+                {
+                    string sq = q.ToString();
+                    sb.Append($",{sq}");
+                }
+                sb.Append(Environment.NewLine);
+                if(i % 500 == 0)
+                {
+                    File.AppendAllText(@"C:\Programs\RNAseqAnalysis\generateddata.csv", sb.ToString());
+                    Console.WriteLine($"Array Size written to file: \n{i}:{arraysize}");
+                    sb.Clear();
+                }
+            }
+            File.AppendAllText(@"C:\Programs\RNAseqAnalysis\generateddata.csv", sb.ToString());
+            Console.WriteLine($"Final Array written to file.\n\tDimensions:\t{arraysize}:{arraysize}");
+            sb.Clear();
         }
         static void Cleaninglogic(string[] Arguments)
         {
@@ -27,12 +76,12 @@ namespace RNAseq_Data_Analysis
                 if (File.Exists(@"C:\Programs\RNAseqAnalysis\data.csv") == false)
                 {
                     Console.WriteLine(@"Data file not found, run cleaning program on 'C:\Programs\RNAseqAnalysis\RawData\RawData.txt' y/n?");
-                    string response = Console.ReadKey();
-                    if (response == 'y')
+                    string response = Console.ReadKey().ToString();
+                    if (response == "y")
                     {
                         datacleaner();
                     }
-                    else if (response =-= 'n')
+                    else if (response == "n")
                     {
                         Console.WriteLine("No cleaned data: program ending.");
                         Environment.Exit(-1);
@@ -51,12 +100,12 @@ namespace RNAseq_Data_Analysis
             else
             {
                 Console.WriteLine(@"Cleaning logic unclear: run cleaning program on 'C:\Programs\RNAseqAnalysis\RawData\RawData.txt' y/n?");
-                string response = Console.ReadKey();
-                if (response == 'y')
+                string response = Console.ReadKey().ToString();
+                if (response == "y")
                 {
                     datacleaner();
                 }
-                else if (response =-= 'n')
+                else if (response == "n")
                 {
                     Console.WriteLine("No cleaned data: program ending.");
                     Environment.Exit(-1);
@@ -116,12 +165,12 @@ namespace RNAseq_Data_Analysis
                 data.Add(p1);
             }
             List<string> ARTlist = fullartlist(data);
-            populate(ARTlist, data);
+            populatereal(ARTlist, data);
             Console.WriteLine("Data Cleaning: Success.");
             //Console.ReadKey();
 
         }
-        static void populate (List<string> ARTlist, List<Patient> data)
+        static void populatereal (List<string> ARTlist, List<Patient> data)
         {
             int num = 1;
             string[] ans = new string[data.Count+1];
