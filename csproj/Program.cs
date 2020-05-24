@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -20,7 +21,58 @@ namespace RNAseq_Data_Analysis
             //Pycontroller();
             //Console.WriteLine(Arguments[1]);
             int interval = 100;
-            WDGen(interval);
+            WDGenConcurrent(interval);
+        }
+        static void WDGenConcurrent (int interval)
+        {
+            string[] pathes = Pathfinder(@"C:\Programs\RNAseqAnalysis\Rawtxt");
+            int batchsize = 100;
+            string UUID = Getid(pathes[0]);
+            double survival = idsurvival(UUID);
+            Patient original =  TxttoPatient(pathes[0], survival, UUID);
+            var arts = new List<Patient>();
+            arts.Add(original);
+            List<string> artlist = fullartlist(arts);
+            int arraysize = original.GeneInfo.Count;
+            int[] referencerow = new int[arraysize];
+            int itemp = 0;
+            StringBuilder sb = new StringBuilder();
+            sb.Append(String.Join(",",artlist.ToArray()));
+            sb.Append(Environment.NewLine);
+            foreach (GeneInfoModel gene in original.GeneInfo)
+            {
+                referencerow[itemp] = Convert.ToInt32(gene.Value);
+            }
+            List<int[]> genrows = new List<int[]>();            
+            for (int i = 0; i < arraysize; i++)
+            {
+                var thisrow = new int[arraysize+1];
+                Array.ConstrainedCopy(referencerow, 0, thisrow, 1, arraysize);
+                thisrow[0] = i;
+                genrows.Add(thisrow);
+                if (i % batchsize == 0)
+                {
+                    batchpush(genrows, artlist);
+                    Console.WriteLine($"Wrote {i} lines to file");
+                }
+            }
+
+        }
+        static void batchpush (List<int[]> genrows, List<string> artlist)
+        {
+            ConcurrentBag<string> output = new ConcurrentBag<string>();
+            Parallel.ForEach(genrows, (hypos) =>
+            {
+                StringBuilder sb= new StringBuilder();
+                sb.Append(artlist[hypos[0]]);
+                for(int i =1; i<artlist.Count;i++)
+                {
+                    var temp = hypos[i].ToString();
+                    sb.Append($",{temp}");
+                }
+                output.Add(sb.ToString());
+            });
+            File.AppendAllLines(@"C:\Programs\RNAseqAnalysis\generateddata.csv", output);
         }
         static void WDGen(int interval)
         {
