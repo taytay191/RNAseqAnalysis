@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "n+IRIbeVuizAx+nZiCIH/SrXOsH424sWHGdWHE7i1eoMNqVtESm9MyPXXymTB5Mr1BWb2lylF6bECz0v+/GdsA==",
+  "success": true,
+  "projectFilePath": "C:\\Programs\\RNAseqAnalysis\\csproj\\csproj.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tjmcg\\.nuget\\packages\\microsoft.netcore.app\\2.0.0\\microsoft.netcore.app.2.0.0.nupkg.sha512",
+    "C:\\Users\\tjmcg\\.nuget\\packages\\microsoft.netcore.dotnetapphost\\2.0.0\\microsoft.netcore.dotnetapphost.2.0.0.nupkg.sha512",
+    "C:\\Users\\tjmcg\\.nuget\\packages\\microsoft.netcore.dotnethostpolicy\\2.0.0\\microsoft.netcore.dotnethostpolicy.2.0.0.nupkg.sha512",
+    "C:\\Users\\tjmcg\\.nuget\\packages\\microsoft.netcore.dotnethostresolver\\2.0.0\\microsoft.netcore.dotnethostresolver.2.0.0.nupkg.sha512",
+    "C:\\Users\\tjmcg\\.nuget\\packages\\microsoft.netcore.platforms\\2.0.0\\microsoft.netcore.platforms.2.0.0.nupkg.sha512",
+    "C:\\Users\\tjmcg\\.nuget\\packages\\netstandard.library\\2.0.0\\netstandard.library.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

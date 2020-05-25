@@ -15,18 +15,37 @@ namespace RNAseq_Data_Analysis
 {
     class Program
     {
+        private static string rawpath = @"C:\Programs\RNAseqAnalysis\Rawtxt";
+        private static string genpath = @"C:\Programs\RNAseqAnalysis\generateddata.csv";
+        private static string datapath = @"C:\Programs\RNAseqAnalysis\data.csv";
+        private static string pythonpath = @"C:\Program Files\Python36\python.exe";
+        private static string linregpypath = @"C:\Programs\RNAseqAnalysis\linearregressionmodel.py";
+        private static string survivalpath = @"C:\Programs\RNAseqAnalysis\Survival.txt";
+
         static void Main(string[] Arguments)
         {
-            //Cleaninglogic(Arguments);
+            logiccomplex(Arguments);
             //Pycontroller();
             //Console.WriteLine(Arguments[1]);
-            int interval = 100;
-            WDGenConcurrent(interval);
+            //int interval = 100;
+            //WDGenConcurrent(interval);
+        }
+        static void logiccomplex(string[] Arguments)
+        {
+            Cleaninglogic(Arguments[0]);
+            GenLogic(Arguments[1]);
+        }
+        static void GenLogic(string arg)
+        {
+
         }
         static void WDGenConcurrent (int interval)
         {
-            string[] pathes = Pathfinder(@"C:\Programs\RNAseqAnalysis\Rawtxt");
-            int batchsize = 100;
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+            string[] pathes = Pathfinder(rawpath);
+            File.Delete(genpath);
+            int batchsize = 500;
             string UUID = Getid(pathes[0]);
             double survival = idsurvival(UUID);
             Patient original =  TxttoPatient(pathes[0], survival, UUID);
@@ -37,6 +56,7 @@ namespace RNAseq_Data_Analysis
             int[] referencerow = new int[arraysize];
             int itemp = 0;
             StringBuilder sb = new StringBuilder();
+            sb.Append("Changed ID");
             sb.Append(String.Join(",",artlist.ToArray()));
             sb.Append(Environment.NewLine);
             foreach (GeneInfoModel gene in original.GeneInfo)
@@ -54,9 +74,14 @@ namespace RNAseq_Data_Analysis
                 {
                     batchpush(genrows, artlist);
                     Console.WriteLine($"Wrote {i} lines to file");
+                    genrows.Clear();
                 }
             }
-
+            batchpush(genrows, artlist);
+            stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+            string timeloss = $"\nHours: {ts.Hours}\nMinutes: {ts.Minutes} \nSeconds: {ts.Seconds}";
+            Console.WriteLine($"Final array constructed with {arraysize} data points. \n\tTime Elapsed: {timeloss}");
         }
         static void batchpush (List<int[]> genrows, List<string> artlist)
         {
@@ -72,62 +97,19 @@ namespace RNAseq_Data_Analysis
                 }
                 output.Add(sb.ToString());
             });
-            File.AppendAllLines(@"C:\Programs\RNAseqAnalysis\generateddata.csv", output);
+            File.AppendAllLines(genpath, output);
         }
-        static void WDGen(int interval)
+        static void Cleaninglogic(string arg)
         {
-            string[] pathes = Pathfinder(@"C:\Programs\RNAseqAnalysis\Rawtxt");
-            string UUID = Getid(pathes[0]);
-            double survival = idsurvival(UUID);
-            Patient original =  TxttoPatient(pathes[0], survival, UUID);
-            var arts = new List<Patient>();
-            arts.Add(original);
-            List<string> artlist = fullartlist(arts);
-            int arraysize = original.GeneInfo.Count;
-            int[] referencerow = new int[arraysize];
-            int itemp = 0;
-            StringBuilder sb = new StringBuilder();
-            sb.Append(String.Join(",",artlist.ToArray()));
-            sb.Append(Environment.NewLine);
-            foreach (GeneInfoModel gene in original.GeneInfo)
-            {
-                referencerow[itemp] = Convert.ToInt32(gene.Value);
-            }
-            for (int i = 0; i < arraysize; i++)
-            {
-                int[] thisrow = new int[arraysize+1];
-                Array.Copy(referencerow, thisrow, arraysize);
-                thisrow[i] += interval;
-                var name = original.GeneInfo[i].GeneName;
-                sb.Append($"{name}");
-                foreach (int q in thisrow)
-                {
-                    string sq = q.ToString();
-                    sb.Append($",{sq}");
-                }
-                sb.Append(Environment.NewLine);
-                if(i % 500 == 0)
-                {
-                    File.AppendAllText(@"C:\Programs\RNAseqAnalysis\generateddata.csv", sb.ToString());
-                    Console.WriteLine($"Array Size written to file: \n{i}:{arraysize}");
-                    sb.Clear();
-                }
-            }
-            File.AppendAllText(@"C:\Programs\RNAseqAnalysis\generateddata.csv", sb.ToString());
-            Console.WriteLine($"Final Array written to file.\n\tDimensions:\t{arraysize}:{arraysize}");
-            sb.Clear();
-        }
-        static void Cleaninglogic(string[] Arguments)
-        {
-            if (Arguments[0] == "-f")
+            if (arg == "-f")
             {
                 datacleaner();
             }
-            else if (Arguments[1] == "-t")
+            else if (arg == "-t")
             {
-                if (File.Exists(@"C:\Programs\RNAseqAnalysis\data.csv") == false)
+                if (File.Exists(datapath) == false)
                 {
-                    Console.WriteLine(@"Data file not found, run cleaning program on 'C:\Programs\RNAseqAnalysis\RawData\RawData.txt' y/n?");
+                    Console.WriteLine($"Data file not found, run cleaning program on '{rawpath}' y/n?");
                     string response = Console.ReadKey().ToString();
                     if (response == "y")
                     {
@@ -141,7 +123,7 @@ namespace RNAseq_Data_Analysis
                     else
                     {
                         Console.WriteLine("Response unclear, please either choose yes or no.");
-                        Cleaninglogic(Arguments);
+                        Cleaninglogic(arg);
                     }
                 }
                 else
@@ -165,7 +147,7 @@ namespace RNAseq_Data_Analysis
                 else
                 {
                     Console.WriteLine("Response unclear, please either choose yes or no.");
-                    Cleaninglogic(Arguments);
+                    Cleaninglogic(arg);
                 }
             }
         }
@@ -177,9 +159,9 @@ namespace RNAseq_Data_Analysis
                 try
                 {
                     ProcessStartInfo procsi = new ProcessStartInfo();
-                    procsi.FileName = @"C:\Program Files\Python36\python.exe";
-                    var script = @"C:\Programs\RNAseqAnalysis\linearregressionmodel.py";
-                    var patharg = @"C:\Programs\RNAseqAnalysis\data.csv";
+                    procsi.FileName = pythonpath;
+                    var script = linregpypath;
+                    var patharg = datapath;
                     procsi.Arguments = string.Format("\"{0}\" \"{1}\"", script, patharg);
                     procsi.CreateNoWindow = true;
                     procsi.UseShellExecute = false;
@@ -202,8 +184,8 @@ namespace RNAseq_Data_Analysis
         }
         static void datacleaner()
         {
-            File.Delete(@"C:\Programs\RNAseqAnalysis\data.csv");
-            string origin = @"C:\Programs\RNAseqAnalysis\Rawtxt";
+            File.Delete(datapath);
+            string origin = rawpath;
             string[] set = Pathfinder(origin);
             int q = 1;
             List<Patient> data = new List<Patient>();
@@ -261,8 +243,8 @@ namespace RNAseq_Data_Analysis
                 ///Console.WriteLine($"Patient Data for UUID {p.UUID} completed as line {num + 1}, and index {num}.");
                 num++;
             }
-            File.WriteAllLines(@"C:\Programs\RNAseqAnalysis\data.csv", ans);
-            ///Console.WriteLine(File.Exists(@"C:\Programs\RNAseqAnalysis\data.csv").ToString());
+            File.WriteAllLines(datapath, ans);
+            ///Console.WriteLine(File.Exists(datapath).ToString());
         }
         static List<string> fullartlist(List<Patient> data)
         {
@@ -282,7 +264,7 @@ namespace RNAseq_Data_Analysis
         }
         static double idsurvival(string UUID)
         {
-            string[] list = File.ReadAllLines(@"C:\Programs\RNAseqAnalysis\Survival.txt");
+            string[] list = File.ReadAllLines(survivalpath);
             double q = 0;
             foreach (string s in list)
             {
