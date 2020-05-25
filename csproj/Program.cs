@@ -21,25 +21,115 @@ namespace RNAseq_Data_Analysis
         private static string pythonpath = @"C:\Program Files\Python36\python.exe";
         private static string linregpypath = @"C:\Programs\RNAseqAnalysis\linearregressionmodel.py";
         private static string survivalpath = @"C:\Programs\RNAseqAnalysis\Survival.txt";
+        public int interval = 100;
 
         static void Main(string[] Arguments)
         {
             logiccomplex(Arguments);
-            //Pycontroller();
-            //Console.WriteLine(Arguments[1]);
-            //int interval = 100;
-            //WDGenConcurrent(interval);
         }
         static void logiccomplex(string[] Arguments)
         {
-            Cleaninglogic(Arguments[0]);
-            GenLogic(Arguments[1]);
+            try
+            {
+                Cleaninglogic(Arguments[0]);
+                try
+                {
+                    GenLogic(Arguments[1]);
+                }
+                catch
+                {
+                    Console.WriteLine("Error in arguments for data generation sequence.")
+                    GenLogic("");
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Error in arguments for cleaning sequence.");
+                Cleaninglogic("");
+                try
+                {
+                    GenLogic(Arguments[1]);
+                }
+                catch
+                {
+                    Console.WriteLine("Error in arguments for data generation sequence.")
+                    GenLogic("");
+                }
+
+            }
         }
         static void GenLogic(string arg)
         {
+            if (arg == "gen")
+            {
+                Console.WriteLine("Starting Generation of data.")
+                Console.WriteLine("Would you like to set the interval value? y/n");
+                var resp1 = ConsoleReadkey();
+                if (resp1 = 'y')
+                {
+                    Console.WriteLine("Please enter desired interval value below.")
+                    var resp2 = Console.ReadLine();
+                    try
+                    {
+                        var twoint = Console.ToInt32(resp2);
+                        Console.WriteLine($"Using {resp2} as interval.")
+                        WDGenConcurrent(twoint);
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine("Error converting response to Int32. Restarting logic sequence.");
+                        GenLogic(arg);
+                    }
+                }
+                else if (resp2 = 'n')
+                {
+                    Console.WriteLine($"Using Default interval: {interval}");
+                    WDGenConcurrent(interval);
+                }
+                else
+                {
+                    Console.WriteLine("Input invalid. Restarting logic sequence.");
+                    GenLogic(arg);
+                }
+            }
+            else if (arg == "def")
+            {
+                if(File.Exists(genpath) = false)
+                {
+                    Console.WriteLine("No generated data file identified. Generate data now? y/n");
+                    var resp3 = Console.ReadKey();
+                    if(resp3 == 'y')
+                    {
+                        GenLogic("gen");
+                    }
+                    else if (resp3 == 'n')
+                    {
+                        Console.WriteLine("No generated data file identified. Program closing.");
+                        Environment.Exit(-1);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Input invalid. Restarting logic sequence.");
+                        GenLogic(arg);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Generated data file identified.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Argument input not recognized. Would you like to generate data? y/n");
+                var resp4 = Console.ReadKey()
+                if (resp4 == 'y')
+                {
 
+                }
+
+            }
         }
-        static void WDGenConcurrent (int interval)
+        static void WDGenConcurrent (int intervals)
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -72,24 +162,25 @@ namespace RNAseq_Data_Analysis
                 genrows.Add(thisrow);
                 if (i % batchsize == 0)
                 {
-                    batchpush(genrows, artlist);
+                    batchpush(genrows, artlist, inverals);
                     Console.WriteLine($"Wrote {i} lines to file");
                     genrows.Clear();
                 }
             }
-            batchpush(genrows, artlist);
+            batchpush(genrows, artlist, intervals);
             stopWatch.Stop();
             TimeSpan ts = stopWatch.Elapsed;
             string timeloss = $"\nHours: {ts.Hours}\nMinutes: {ts.Minutes} \nSeconds: {ts.Seconds}";
             Console.WriteLine($"Final array constructed with {arraysize} data points. \n\tTime Elapsed: {timeloss}");
         }
-        static void batchpush (List<int[]> genrows, List<string> artlist)
+        static void batchpush (List<int[]> genrows, List<string> artlist, int intervals)
         {
             ConcurrentBag<string> output = new ConcurrentBag<string>();
             Parallel.ForEach(genrows, (hypos) =>
             {
                 StringBuilder sb= new StringBuilder();
                 sb.Append(artlist[hypos[0]]);
+                hypos[hypos[0]] += intervals;
                 for(int i =1; i<artlist.Count;i++)
                 {
                     var temp = hypos[i].ToString();
@@ -133,7 +224,7 @@ namespace RNAseq_Data_Analysis
             }
             else
             {
-                Console.WriteLine(@"Cleaning logic unclear: run cleaning program on 'C:\Programs\RNAseqAnalysis\RawData\RawData.txt' y/n?");
+                Console.WriteLine($"Cleaning logic unclear: run cleaning program on '{rawpath}'? y/n");
                 string response = Console.ReadKey().ToString();
                 if (response == "y")
                 {
