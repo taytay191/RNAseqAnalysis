@@ -21,7 +21,7 @@ namespace RNAseq_Data_Analysis
         private static string pythonpath = @"C:\Program Files\Python36\python.exe";
         private static string linregpypath = @"C:\Programs\RNAseqAnalysis\linearregressionmodel.py";
         private static string survivalpath = @"C:\Programs\RNAseqAnalysis\Survival.txt";
-        public int interval = 100;
+        public static int interval = 100;
 
         static void Main(string[] Arguments)
         {
@@ -38,7 +38,7 @@ namespace RNAseq_Data_Analysis
                 }
                 catch
                 {
-                    Console.WriteLine("Error in arguments for data generation sequence.")
+                    Console.WriteLine("Error in arguments for data generation sequence.");
                     GenLogic("");
                 }
             }
@@ -52,7 +52,7 @@ namespace RNAseq_Data_Analysis
                 }
                 catch
                 {
-                    Console.WriteLine("Error in arguments for data generation sequence.")
+                    Console.WriteLine("Error in arguments for data generation sequence.");
                     GenLogic("");
                 }
 
@@ -62,26 +62,26 @@ namespace RNAseq_Data_Analysis
         {
             if (arg == "gen")
             {
-                Console.WriteLine("Starting Generation of data.")
+                Console.WriteLine("Starting Generation of data.");
                 Console.WriteLine("Would you like to set the interval value? y/n");
-                var resp1 = ConsoleReadkey();
-                if (resp1 = 'y')
+                var resp1 = Console.ReadLine();
+                if (Convert.ToChar(resp1) == 'y')
                 {
-                    Console.WriteLine("Please enter desired interval value below.")
+                    Console.WriteLine("Please enter desired interval value below.");
                     var resp2 = Console.ReadLine();
                     try
                     {
-                        var twoint = Console.ToInt32(resp2);
-                        Console.WriteLine($"Using {resp2} as interval.")
+                        var twoint = Convert.ToInt32(resp2);
+                        Console.WriteLine($"Using {resp2} as interval.");
                         WDGenConcurrent(twoint);
                     }
-                    catch(Exception e)
+                    catch
                     {
                         Console.WriteLine("Error converting response to Int32. Restarting logic sequence.");
                         GenLogic(arg);
                     }
                 }
-                else if (resp2 = 'n')
+                else if (Convert.ToChar(resp1) == 'n')
                 {
                     Console.WriteLine($"Using Default interval: {interval}");
                     WDGenConcurrent(interval);
@@ -94,15 +94,15 @@ namespace RNAseq_Data_Analysis
             }
             else if (arg == "def")
             {
-                if(File.Exists(genpath) = false)
+                if(File.Exists(genpath) == false)
                 {
                     Console.WriteLine("No generated data file identified. Generate data now? y/n");
-                    var resp3 = Console.ReadKey();
-                    if(resp3 == 'y')
+                    var resp3 = Console.ReadLine();
+                    if(Convert.ToChar(resp3) == 'y')
                     {
                         GenLogic("gen");
                     }
-                    else if (resp3 == 'n')
+                    else if (Convert.ToChar(resp3) == 'n')
                     {
                         Console.WriteLine("No generated data file identified. Program closing.");
                         Environment.Exit(-1);
@@ -121,12 +121,20 @@ namespace RNAseq_Data_Analysis
             else
             {
                 Console.WriteLine("Argument input not recognized. Would you like to generate data? y/n");
-                var resp4 = Console.ReadKey()
-                if (resp4 == 'y')
+                var resp4 = Console.ReadLine();
+                if (Convert.ToChar(resp4) == 'y')
                 {
-
+                    GenLogic("gen");
                 }
-
+                else if (Convert.ToChar(resp4) == 'n')
+                {
+                    GenLogic("def");
+                }
+                else
+                {
+                    Console.WriteLine("Input invalid. Restarting logic sequence.");
+                    GenLogic(arg);
+                }
             }
         }
         static void WDGenConcurrent (int intervals)
@@ -162,7 +170,7 @@ namespace RNAseq_Data_Analysis
                 genrows.Add(thisrow);
                 if (i % batchsize == 0)
                 {
-                    batchpush(genrows, artlist, inverals);
+                    batchpush(genrows, artlist, intervals);
                     Console.WriteLine($"Wrote {i} lines to file");
                     genrows.Clear();
                 }
@@ -192,16 +200,16 @@ namespace RNAseq_Data_Analysis
         }
         static void Cleaninglogic(string arg)
         {
-            if (arg == "-f")
+            if (arg == "--f")
             {
                 datacleaner();
             }
-            else if (arg == "-t")
+            else if (arg == "--t")
             {
                 if (File.Exists(datapath) == false)
                 {
                     Console.WriteLine($"Data file not found, run cleaning program on '{rawpath}' y/n?");
-                    string response = Console.ReadKey().ToString();
+                    string response = Console.ReadLine().ToString();
                     if (response == "y")
                     {
                         datacleaner();
@@ -225,7 +233,7 @@ namespace RNAseq_Data_Analysis
             else
             {
                 Console.WriteLine($"Cleaning logic unclear: run cleaning program on '{rawpath}'? y/n");
-                string response = Console.ReadKey().ToString();
+                string response = Console.ReadLine().ToString();
                 if (response == "y")
                 {
                     datacleaner();
@@ -292,8 +300,6 @@ namespace RNAseq_Data_Analysis
             List<string> ARTlist = fullartlist(data);
             populatereal(ARTlist, data);
             Console.WriteLine("Data Cleaning: Success.");
-            //Console.ReadKey();
-
         }
         static void populatereal (List<string> ARTlist, List<Patient> data)
         {
