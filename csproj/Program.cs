@@ -21,6 +21,7 @@ namespace RNAseq_Data_Analysis
         private static string pythonpath = @"C:\Program Files\Python36\python.exe";
         private static string linregpypath = @"C:\Programs\RNAseqAnalysis\linearregressionmodel.py";
         private static string survivalpath = @"C:\Programs\RNAseqAnalysis\Survival.txt";
+        private static string wspath = @"C:\Programs\RNAseqAnalysis\Predsurvival.csv";
         public static int interval = 100;
 
         static void Main(string[] Arguments)
@@ -57,6 +58,7 @@ namespace RNAseq_Data_Analysis
                 }
 
             }
+            Pycontroller();
         }
         static void GenLogic(string arg)
         {
@@ -143,7 +145,7 @@ namespace RNAseq_Data_Analysis
             stopWatch.Start();
             string[] pathes = Pathfinder(rawpath);
             File.Delete(genpath);
-            int batchsize = 500;
+            int batchsize = 750;
             string UUID = Getid(pathes[0]);
             double survival = idsurvival(UUID);
             Patient original =  TxttoPatient(pathes[0], survival, UUID);
@@ -154,9 +156,11 @@ namespace RNAseq_Data_Analysis
             int[] referencerow = new int[arraysize];
             int itemp = 0;
             StringBuilder sb = new StringBuilder();
-            sb.Append("Changed ID");
+            sb.Append("Changed ID,");
             sb.Append(String.Join(",",artlist.ToArray()));
-            sb.Append(Environment.NewLine);
+            List<string> temp = new List<string>();
+            temp.Add(sb.ToString());
+            File.WriteAllLines(genpath, temp);
             foreach (GeneInfoModel gene in original.GeneInfo)
             {
                 referencerow[itemp] = Convert.ToInt32(gene.Value);
@@ -167,6 +171,7 @@ namespace RNAseq_Data_Analysis
                 var thisrow = new int[arraysize+1];
                 Array.ConstrainedCopy(referencerow, 0, thisrow, 1, arraysize);
                 thisrow[0] = i;
+                thisrow[i+1] += intervals;
                 genrows.Add(thisrow);
                 if (i % batchsize == 0)
                 {
@@ -260,19 +265,23 @@ namespace RNAseq_Data_Analysis
                     ProcessStartInfo procsi = new ProcessStartInfo();
                     procsi.FileName = pythonpath;
                     var script = linregpypath;
-                    var patharg = datapath;
-                    procsi.Arguments = string.Format("\"{0}\" \"{1}\"", script, patharg);
+                    var patharg1 = datapath;
+                    procsi.Arguments = string.Format("\"{0}\" \"{1}\" \"{2}\" \"{3}\"", script, datapath, genpath, wspath);
                     procsi.CreateNoWindow = true;
                     procsi.UseShellExecute = false;
                     procsi.RedirectStandardOutput = true;
                     procsi.RedirectStandardError = true;
                     procsi.RedirectStandardInput = true;
                     proc.StartInfo = procsi;
+                    Stopwatch pythonruntime = new Stopwatch();
+                    pythonruntime.Start();
                     proc.Start();
                     Console.WriteLine("Python Loading: Success");
                     stdOut = proc.StandardOutput.ReadToEnd();
                     stdErr = proc.StandardError.ReadToEnd();
                     Console.WriteLine($"\tErrors: \n{stdErr}\n\tResults:\n{stdOut}");
+                    pythonruntime.Stop();
+                    Console.WriteLine($"\tPython Run-Time:\nHours: {pythonruntime.Elapsed.Hours}\nMinutes: {pythonruntime.Elapsed.Minutes}\nSeconds: {pythonruntime.Elapsed.Seconds}");
 
                 }
                 catch (Exception e)
