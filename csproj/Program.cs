@@ -22,6 +22,7 @@ namespace RNAseq_Data_Analysis
         private static string linregpypath = @"C:\Programs\RNAseqAnalysis\linearregressionmodel.py";
         private static string survivalpath = @"C:\Programs\RNAseqAnalysis\Survival.txt";
         private static string wspath = @"C:\Programs\RNAseqAnalysis\Predsurvival.csv";
+        private static string artpath = @"C:\Programs\RNAseqAnalysis\artlist.csv";
         public static int interval = 100;
 
         static void Main(string[] Arguments)
@@ -164,6 +165,7 @@ namespace RNAseq_Data_Analysis
             foreach (GeneInfoModel gene in original.GeneInfo)
             {
                 referencerow[itemp] = Convert.ToInt32(gene.Value);
+                itemp++;
             }
             List<int[]> genrows = new List<int[]>();            
             for (int i = 0; i < arraysize; i++)
@@ -171,7 +173,6 @@ namespace RNAseq_Data_Analysis
                 var thisrow = new int[arraysize+1];
                 Array.ConstrainedCopy(referencerow, 0, thisrow, 1, arraysize);
                 thisrow[0] = i;
-                thisrow[i+1] += intervals;
                 genrows.Add(thisrow);
                 if (i % batchsize == 0)
                 {
@@ -194,7 +195,7 @@ namespace RNAseq_Data_Analysis
                 StringBuilder sb= new StringBuilder();
                 sb.Append(artlist[hypos[0]]);
                 hypos[hypos[0]] += intervals;
-                for(int i =1; i<artlist.Count;i++)
+                for(int i =1; i<artlist.Count+1;i++)
                 {
                     var temp = hypos[i].ToString();
                     sb.Append($",{temp}");
@@ -255,6 +256,12 @@ namespace RNAseq_Data_Analysis
                 }
             }
         }
+        static int artlength()
+        {
+            string[] s = File.ReadAllLines(artpath);
+            int i = s.ToList().Count;
+            return i;
+        }
         static void Pycontroller ()
         {
             string stdOut,stdErr = "None";
@@ -266,7 +273,8 @@ namespace RNAseq_Data_Analysis
                     procsi.FileName = pythonpath;
                     var script = linregpypath;
                     var patharg1 = datapath;
-                    procsi.Arguments = string.Format("\"{0}\" \"{1}\" \"{2}\" \"{3}\"", script, datapath, genpath, wspath);
+                    int arraysize = artlength();
+                    procsi.Arguments = string.Format("\"{0}\" \"{1}\" \"{2}\" \"{3}\" \"{4}\"", script, datapath, genpath, wspath, arraysize);
                     procsi.CreateNoWindow = true;
                     procsi.UseShellExecute = false;
                     procsi.RedirectStandardOutput = true;
@@ -307,6 +315,11 @@ namespace RNAseq_Data_Analysis
                 data.Add(p1);
             }
             List<string> ARTlist = fullartlist(data);
+            if(File.Exists(artpath) == true)
+            {
+                File.Delete(artpath);
+            }
+            File.WriteAllLines(artpath, ARTlist);
             populatereal(ARTlist, data);
             Console.WriteLine("Data Cleaning: Success.");
         }
