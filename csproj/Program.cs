@@ -274,7 +274,7 @@ namespace RNAseq_Data_Analysis
                     var script = linregpypath;
                     var patharg1 = datapath;
                     int arraysize = artlength();
-                    procsi.Arguments = string.Format("\"{0}\" \"{1}\" \"{2}\" \"{3}\" \"{4}\"", script, datapath, genpath, wspath, arraysize);
+                    procsi.Arguments = string.Format("\"{0}\" \"{1}\" \"{2}\" \"{3}\" \"{4}\" \"{5}\"", script, datapath, genpath, wspath, arraysize, artpath);
                     procsi.CreateNoWindow = true;
                     procsi.UseShellExecute = false;
                     procsi.RedirectStandardOutput = true;
