@@ -32,76 +32,68 @@ namespace RNAseq_Data_Analysis
         }
         static void logiccomplex(string[] Arguments)
         {
+            Cleaninglogic(Arguments);
+            GenLogic(Arguments);
+            Pythonlogic(Arguments);
+            Weightlogic(Arguments);
+        }
+        static void Weightlogic(string[] Argument)
+        {
+            string arguse = "";
             try
             {
-                Cleaninglogic(Arguments[0]);
-                try
-                {
-                    GenLogic(Arguments[1]);
-                    try
-                    {
-                        Pythonlogic(Arguments[2]);
-                    }
-                    catch
-                    {
-                        Console.WriteLine("Error in arguments for python control sequence.");
-                        Pythonlogic("");
-                    }
-                }
-                catch
-                {
-                    Console.WriteLine("Error in arguments for data generation sequence.");
-                    GenLogic("");
-                    try
-                    {
-                        Pythonlogic(Arguments[2]);
-                    }
-                    catch
-                    {
-                        Console.WriteLine("Error in arguments for python control sequence.");
-                        Pythonlogic("");
-                    }
-                }
+                arguse = Argument[3];
             }
             catch
             {
-                Console.WriteLine("Error in arguments for cleaning sequence.");
-                Cleaninglogic("");
-                try
-                {
-                    GenLogic(Arguments[1]);
-                    try
-                    {
-                        Pythonlogic(Arguments[2]);
-                    }
-                    catch
-                    {
-                        Console.WriteLine("Error in arguments for python control sequence.");
-                        Pythonlogic("");
-                    }
-
-                }
-                catch
-                {
-                    Console.WriteLine("Error in arguments for data generation sequence.");
-                    GenLogic("");
-                    try
-                    {
-                        Pythonlogic(Arguments[2]);
-                    }
-                    catch
-                    {
-                        Console.WriteLine("Error in arguments for python control sequence.");
-                        Pythonlogic("");
-                    }
-
-                }
-
+                Console.WriteLine("Error for arguments in weight logic sequence.");
             }
-            Predanalysis();
+            if (arguse == "weigh")
+            {
+                Console.WriteLine("Running weight analysis.");
+                Predanalysis();
+            }
+            else if (arguse == "ignore")
+            {
+                if (File.Exists(weightpath)== true)
+                {
+                    Console.WriteLine("Weight Path found.");
+                }
+                else
+                {
+                    Console.WriteLine("No path found. Run weighing process? y/n");
+                    string input = Console.ReadLine();
+                    string[] temp = new string[3];
+                    if(input == "y" )
+                    {
+                        temp[3] = "weigh";
+                        Weightlogic(temp);
+                    }
+                    else if (input == "n")
+                    {
+                        Console.WriteLine("No data.");
+                        Environment.Exit(-1);
+                    } 
+                    else
+                    {
+                        Console.WriteLine("Input invalid. Restarting logic sequence.");
+                        temp[3] = "ignore";
+                        Weightlogic(temp);
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Input invalid. Please either write 'weigh' to weigh data or 'ignore' to pass over the data.");
+                string resp = Console.ReadLine();
+                string[] temp = new string[3];
+                temp[3] = resp;
+                Weightlogic(temp);
+            }
         }
         static void Predanalysis()
         {
+            File.Delete(weightpath);
             string[] og = File.ReadAllLines(wspath);
             Dictionary<string, double> dep = new Dictionary<string,double>();
             foreach(string s in og)
@@ -110,17 +102,12 @@ namespace RNAseq_Data_Analysis
                 dep.Add(temp[0], Convert.ToDouble(temp[1]));
                 //Console.WriteLine(temp[0]);
             }
-            string[] pathes = Pathfinder(rawpath);
-            string UUID = Getid(pathes[0]);
-            double survival = idsurvival(UUID);
-            Patient original = TxttoPatient(pathes[0], survival, UUID);
-            var arts = new List<Patient>();
-            arts.Add(original);
-            List<string> artarray = fullartlist(arts);
-            int arraylength = Convert.ToInt32(artarray.Count);
+            double survival = dep["Original"];
+            List<string> keylist = new List<string>(dep.Keys);
+            int arraylength = Convert.ToInt32(keylist.Count);
             for (int i = 0; i < arraylength; i++)
             {
-                string tempname = artarray[i];
+                string tempname = keylist[i];
                 try
                 {
                     dep[tempname] -= survival;
@@ -132,7 +119,7 @@ namespace RNAseq_Data_Analysis
                 }
             }
             int itemp=1;
-            var org = from pair in dep orderby pair.Value ascending select pair;
+            var org = from pair in dep orderby Math.Abs(pair.Value) descending select pair;
             using (StreamWriter sw = File.CreateText(weightpath))
             {
                 foreach (var pair in org)
@@ -143,18 +130,27 @@ namespace RNAseq_Data_Analysis
                 }
             }
         }
-        static void Pythonlogic(string arg)
+        static void Pythonlogic(string[] arg)
         {
-            if (arg == "linreg")
+            string arguse = "";
+            try
+            {
+                arguse = arg[2];
+            }
+            catch
+            {
+                Console.WriteLine("Error in arguments for python control sequence.");
+            }
+            if (arguse == "linreg")
             {
                 Console.WriteLine("Linear regression model starting now.");
                 Pycontroller();
             }
-            else if (arg == "keras")
+            else if (arguse == "keras")
             {
                 Console.WriteLine("Keras Model not developed yet. Please wait for another time.");
             }
-            else if (arg == "skip")
+            else if (arguse == "skip")
             {
                 if (File.Exists(wspath))
                 {
@@ -163,20 +159,32 @@ namespace RNAseq_Data_Analysis
                 else
                 {
                     Console.WriteLine("Input invalid, no data file exists. Would you like to run a model? Please type 'linreg' to run linear regression model, 'keras' to run the Keras model.");
-                    string temp = Console.ReadLine();
+                    string resp = Console.ReadLine();
+                    string[] temp = new string[2];
+                    temp[2] = resp;
                     Pythonlogic(temp);
                 }
             }
             else
             {
                 Console.WriteLine("Input invalid. Would you like to run a model? Please type 'linreg' to run linear regression model, 'keras' to run the Keras model, or 'skip' to indicate that the data already exists.");
-                string temp = Console.ReadLine();
+                string resp = Console.ReadLine();
+                string[] temp = new string[2];
                 Pythonlogic(temp);
             }
         }
-        static void GenLogic(string arg)
+        static void GenLogic(string[] arg)
         {
-            if (arg == "gen")
+            string arguse = "";
+            try
+            {
+                arguse = arg[1];
+            }
+            catch
+            {
+                Console.WriteLine("Error in arguments for data generation sequence.");
+            }
+            if (arguse == "gen")
             {
                 Console.WriteLine("Starting Generation of data.");
                 Console.WriteLine("Would you like to set the interval value? y/n");
@@ -194,7 +202,9 @@ namespace RNAseq_Data_Analysis
                     catch
                     {
                         Console.WriteLine("Error converting response to Int32. Restarting logic sequence.");
-                        GenLogic(arg);
+                        string[] temp = new string[1];
+                        temp[1] = arguse;
+                        GenLogic(temp);
                     }
                 }
                 else if (Convert.ToChar(resp1) == 'n')
@@ -205,10 +215,12 @@ namespace RNAseq_Data_Analysis
                 else
                 {
                     Console.WriteLine("Input invalid. Restarting logic sequence.");
-                    GenLogic(arg);
+                    string[] temp = new string[1];
+                    temp[1] = arguse;
+                    GenLogic(temp);
                 }
             }
-            else if (arg == "def")
+            else if (arguse == "def")
             {
                 if(File.Exists(genpath) == false)
                 {
@@ -216,7 +228,9 @@ namespace RNAseq_Data_Analysis
                     var resp3 = Console.ReadLine();
                     if(Convert.ToChar(resp3) == 'y')
                     {
-                        GenLogic("gen");
+                        string[] temp = new string[1];
+                        temp[1] = "gen";
+                        GenLogic(temp);
                     }
                     else if (Convert.ToChar(resp3) == 'n')
                     {
@@ -226,7 +240,9 @@ namespace RNAseq_Data_Analysis
                     else
                     {
                         Console.WriteLine("Input invalid. Restarting logic sequence.");
-                        GenLogic(arg);
+                        string[] temp = new string[1];
+                        temp[1] = arguse;
+                        GenLogic(temp);
                     }
                 }
                 else
@@ -240,18 +256,48 @@ namespace RNAseq_Data_Analysis
                 var resp4 = Console.ReadLine();
                 if (Convert.ToChar(resp4) == 'y')
                 {
-                    GenLogic("gen");
+                    string[] temp = new string[1];
+                    temp[1] = "gen";
+                    GenLogic(temp);
                 }
                 else if (Convert.ToChar(resp4) == 'n')
                 {
-                    GenLogic("def");
+                    string[] temp = new string[1];
+                    temp[1] = "def";
+                    GenLogic(temp);
                 }
                 else
                 {
                     Console.WriteLine("Input invalid. Restarting logic sequence.");
-                    GenLogic(arg);
+                    string[] temp = new string[1];
+                    temp[1] = "";
+                    GenLogic(temp);
                 }
             }
+        }
+        static int[] genrefrow()
+        {
+            string[] input = File.ReadAllLines(datapath);
+            int arraysize = Convert.ToInt32(input[1].Split(',').Length)-2;
+            int arraylength = Convert.ToInt32(input.Length)-1;
+            string[][] master = new string[arraylength][];
+            int[] referencerow = new int[arraysize];
+            for (int i = 1; i<arraylength; i++)
+            {
+                string[] temp = input[i].Split(',');
+                master[i]=temp;
+            }
+            for (int o = 2; o<arraysize; o++)
+            {
+                int temp = 0;
+                for (int i =1; i<arraylength; i++)
+                {
+                    var temp1 = master[i];
+                    temp += Convert.ToInt32(temp1[o]);
+                }
+                referencerow[o] = temp/arraylength;
+            }
+            return referencerow;
         }
         static void WDGenConcurrent (int intervals)
         {
@@ -267,20 +313,18 @@ namespace RNAseq_Data_Analysis
             arts.Add(original);
             List<string> artlist = fullartlist(arts);
             int arraysize = original.GeneInfo.Count;
-            int[] referencerow = new int[arraysize];
-            int itemp = 0;
+            int[] referencerow = genrefrow();
             StringBuilder sb = new StringBuilder();
             sb.Append("Changed ID,");
             sb.Append(String.Join(",",artlist.ToArray()));
             List<string> temp = new List<string>();
             temp.Add(sb.ToString());
             File.WriteAllLines(genpath, temp);
-            foreach (GeneInfoModel gene in original.GeneInfo)
-            {
-                referencerow[itemp] = Convert.ToInt32(gene.Value);
-                itemp++;
-            }
-            List<int[]> genrows = new List<int[]>();            
+            List<int[]> genrows = new List<int[]>();
+            var temp1 = new int[arraysize+1];
+            Array.ConstrainedCopy(referencerow,0,temp1,1,arraysize);
+            temp1[0] = -1;
+            genrows.Add(temp1);            
             for (int i = 0; i < arraysize; i++)
             {
                 var thisrow = new int[arraysize+1];
@@ -306,24 +350,46 @@ namespace RNAseq_Data_Analysis
             Parallel.ForEach(genrows, (hypos) =>
             {
                 StringBuilder sb= new StringBuilder();
-                sb.Append(artlist[hypos[0]]);
-                hypos[hypos[0]] += intervals;
-                for(int i =1; i<artlist.Count+1;i++)
+                if(hypos[0] ==-1)
                 {
-                    var temp = hypos[i].ToString();
-                    sb.Append($",{temp}");
+                    sb.Append("Original");
+                    for(int i =1; i<artlist.Count+1; i++)
+                    {
+                        var temp = hypos[i].ToString();
+                        sb.Append($",{temp}");
+                    }
+                }
+                else
+                {
+                    sb.Append(artlist[hypos[0]]);
+                    hypos[hypos[0]] += intervals;
+                    for(int i =1; i<artlist.Count+1;i++)
+                    {
+                        var temp = hypos[i].ToString();
+                        sb.Append($",{temp}");
+                    }
+
                 }
                 output.Add(sb.ToString());
             });
             File.AppendAllLines(genpath, output);
         }
-        static void Cleaninglogic(string arg)
+        static void Cleaninglogic(string[] arg)
         {
-            if (arg == "--f")
+            string arguse = "";
+            try
+            {
+                arguse = arg[0];
+            }
+            catch
+            {
+                Console.WriteLine("Error in arguments for cleaning sequence.");
+            }
+            if (arguse == "--f")
             {
                 datacleaner();
             }
-            else if (arg == "--t")
+            else if (arguse == "--t")
             {
                 if (File.Exists(datapath) == false)
                 {
@@ -341,7 +407,9 @@ namespace RNAseq_Data_Analysis
                     else
                     {
                         Console.WriteLine("Response unclear, please either choose yes or no.");
-                        Cleaninglogic(arg);
+                        string[] temp = new string[1];
+                        temp[0] = arguse;
+                        Cleaninglogic(temp);
                     }
                 }
                 else
@@ -365,7 +433,9 @@ namespace RNAseq_Data_Analysis
                 else
                 {
                     Console.WriteLine("Response unclear, please either choose yes or no.");
-                    Cleaninglogic(arg);
+                    string[] temp = new string[1];
+                    temp[0] = arguse;
+                    Cleaninglogic(temp);
                 }
             }
         }
