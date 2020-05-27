@@ -23,6 +23,7 @@ namespace RNAseq_Data_Analysis
         private static string survivalpath = @"C:\Programs\RNAseqAnalysis\Survival.txt";
         private static string wspath = @"C:\Programs\RNAseqAnalysis\Predsurvival.csv";
         private static string artpath = @"C:\Programs\RNAseqAnalysis\artlist.csv";
+        private static string weightpath = @"C:\Programs\RNAseqAnalysis\weights.csv";
         public static int interval = 100;
 
         static void Main(string[] Arguments)
@@ -37,11 +38,29 @@ namespace RNAseq_Data_Analysis
                 try
                 {
                     GenLogic(Arguments[1]);
+                    try
+                    {
+                        Pythonlogic(Arguments[2]);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Error in arguments for python control sequence.");
+                        Pythonlogic("");
+                    }
                 }
                 catch
                 {
                     Console.WriteLine("Error in arguments for data generation sequence.");
                     GenLogic("");
+                    try
+                    {
+                        Pythonlogic(Arguments[2]);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Error in arguments for python control sequence.");
+                        Pythonlogic("");
+                    }
                 }
             }
             catch
@@ -51,15 +70,109 @@ namespace RNAseq_Data_Analysis
                 try
                 {
                     GenLogic(Arguments[1]);
+                    try
+                    {
+                        Pythonlogic(Arguments[2]);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Error in arguments for python control sequence.");
+                        Pythonlogic("");
+                    }
+
                 }
                 catch
                 {
                     Console.WriteLine("Error in arguments for data generation sequence.");
                     GenLogic("");
+                    try
+                    {
+                        Pythonlogic(Arguments[2]);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Error in arguments for python control sequence.");
+                        Pythonlogic("");
+                    }
+
                 }
 
             }
-            Pycontroller();
+            Predanalysis();
+        }
+        static void Predanalysis()
+        {
+            string[] og = File.ReadAllLines(wspath);
+            Dictionary<string, double> dep = new Dictionary<string,double>();
+            foreach(string s in og)
+            {
+                string[] temp = s.Split(",");
+                dep.Add(temp[0], Convert.ToDouble(temp[1]));
+                //Console.WriteLine(temp[0]);
+            }
+            string[] pathes = Pathfinder(rawpath);
+            string UUID = Getid(pathes[0]);
+            double survival = idsurvival(UUID);
+            Patient original = TxttoPatient(pathes[0], survival, UUID);
+            var arts = new List<Patient>();
+            arts.Add(original);
+            List<string> artarray = fullartlist(arts);
+            int arraylength = Convert.ToInt32(artarray.Count);
+            for (int i = 0; i < arraylength; i++)
+            {
+                string tempname = artarray[i];
+                try
+                {
+                    dep[tempname] -= survival;
+                }
+                catch
+                {
+                    //Console.WriteLine($"Error in finding change in Survival for gene {tempname}");
+                    dep.Add(tempname, 0);
+                }
+            }
+            int itemp=1;
+            var org = from pair in dep orderby pair.Value ascending select pair;
+            using (StreamWriter sw = File.CreateText(weightpath))
+            {
+                foreach (var pair in org)
+                {
+                    Console.WriteLine($"Position: {itemp.ToString()}\tGene Name: {pair.Key}  Change in Survival: {pair.Value.ToString()}");
+                    sw.WriteLine($"{pair.Key},{pair.Value.ToString()}");
+                    itemp++;
+                }
+            }
+        }
+        static void Pythonlogic(string arg)
+        {
+            if (arg == "linreg")
+            {
+                Console.WriteLine("Linear regression model starting now.");
+                Pycontroller();
+            }
+            else if (arg == "keras")
+            {
+                Console.WriteLine("Keras Model not developed yet. Please wait for another time.");
+            }
+            else if (arg == "skip")
+            {
+                if (File.Exists(wspath))
+                {
+                    Console.WriteLine("Predicted Survival path detected.");
+                }
+                else
+                {
+                    Console.WriteLine("Input invalid, no data file exists. Would you like to run a model? Please type 'linreg' to run linear regression model, 'keras' to run the Keras model.");
+                    string temp = Console.ReadLine();
+                    Pythonlogic(temp);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Input invalid. Would you like to run a model? Please type 'linreg' to run linear regression model, 'keras' to run the Keras model, or 'skip' to indicate that the data already exists.");
+                string temp = Console.ReadLine();
+                Pythonlogic(temp);
+            }
         }
         static void GenLogic(string arg)
         {
