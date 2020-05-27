@@ -264,7 +264,7 @@ namespace RNAseq_Data_Analysis
         }
         static void Pycontroller ()
         {
-            string stdOut,stdErr = "None";
+            string stdErr = "None";
             using (var proc = new Process())
             {
                 try
@@ -277,7 +277,7 @@ namespace RNAseq_Data_Analysis
                     procsi.Arguments = string.Format("\"{0}\" \"{1}\" \"{2}\" \"{3}\" \"{4}\" \"{5}\"", script, datapath, genpath, wspath, arraysize, artpath);
                     procsi.CreateNoWindow = true;
                     procsi.UseShellExecute = false;
-                    procsi.RedirectStandardOutput = true;
+                    procsi.RedirectStandardOutput = false;
                     procsi.RedirectStandardError = true;
                     procsi.RedirectStandardInput = true;
                     proc.StartInfo = procsi;
@@ -285,9 +285,8 @@ namespace RNAseq_Data_Analysis
                     pythonruntime.Start();
                     proc.Start();
                     Console.WriteLine("Python Loading: Success");
-                    stdOut = proc.StandardOutput.ReadToEnd();
                     stdErr = proc.StandardError.ReadToEnd();
-                    Console.WriteLine($"\tErrors: \n{stdErr}\n\tResults:\n{stdOut}");
+                    Console.WriteLine($"\tErrors: \n{stdErr}");
                     pythonruntime.Stop();
                     Console.WriteLine($"\tPython Run-Time:\nHours: {pythonruntime.Elapsed.Hours}\nMinutes: {pythonruntime.Elapsed.Minutes}\nSeconds: {pythonruntime.Elapsed.Seconds}");
 
