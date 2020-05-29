@@ -41,8 +41,23 @@ namespace RNAseq_Data_Analysis
         }
         static void GOIDanalysis()
         {
+            string[] pathes = Pathfinder(gopath);
+            foreach (string s in pathes)
+            {
+                
+            }
 
         }
+        static string Getgoid(string path)
+        {
+            string resid = @"C:\Programs\RNAseqAnalysis\GOID\";
+            string result = string.Empty;
+            result = path.Remove(0, resid.Length);
+            string[] resid2 = result.Split(".");
+            string fresult = resid2[0];
+            return fresult.ToLower();
+        }
+
         static void Weightlogic(string[] Argument)
         {
             string arguse = "";

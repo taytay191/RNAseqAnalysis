@@ -60,8 +60,7 @@ totrows = int(sys.argv[4])
 batchsizemod = 4000
 multi = 50
 fullbatchnum = totrows//batchsizemod
-
-# for x in range(0, fullbatchnum):
-#     getapreds(batchsizemod,str(sys.argv[2]), x, multi)
+ for x in range(0, fullbatchnum):
+     getapreds(batchsizemod,str(sys.argv[2]), x, multi)
 getandwrite(str(sys.argv[2]), batchsizemod*fullbatchnum, totrows % batchsizemod)
 
