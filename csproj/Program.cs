@@ -27,10 +27,12 @@ namespace RNAseq_Data_Analysis
         public static int interval = 100;
         private static string transferpath = @"C:\Programs\RNAseqAnalysis\keylist.txt";
         private static string gopath = @"C:\Programs\RNAseqAnalysis\GOID";
+        private static string godir = @"C:\Programs\RNAseqAnalysis\GOIDsave";
 
         static void Main(string[] Arguments)
         {
-            logiccomplex(Arguments);
+            //logiccomplex(Arguments);
+            GOIDanalysis();
         }
         static void logiccomplex(string[] Arguments)
         {
@@ -42,9 +44,48 @@ namespace RNAseq_Data_Analysis
         static void GOIDanalysis()
         {
             string[] pathes = Pathfinder(gopath);
+            Dictionary<string, double> original = new Dictionary<string,double>();
+            string[] weights= File.ReadAllLines(weightpath);
+            foreach(string s in weights)
+            {
+                // Console.WriteLine(s);
+                string[] temp = s.Split(',');
+                //Console.WriteLine($"s[0]: {temp[0]}\ts[1]: {temp[1]}");
+                original.Add(temp[0], Convert.ToDouble(temp[1]));
+            }
+            List<string[]> rawgoid = new List<string[]>();
             foreach (string s in pathes)
             {
-                
+                string[] temp1 = File.ReadAllLines(s);
+                string UUID = Getgoid(s);
+                string path = $"{godir}\\{UUID}.csv";
+                Dictionary<string, string> idens = new Dictionary<string, string>();
+                foreach (string d in temp1)
+                {
+                    int temp = d.IndexOf("ENSG");
+                    if (temp != -1)
+                    {
+                        string ens = d.Substring(temp, 15);
+                        string offic = d.Substring(0, temp);
+                        idens.Add(ens, offic);
+                    }                   
+                    List<string> keys = new List<string>(idens.Keys);
+                    using(StreamWriter sw  = File.CreateText(path))
+                    {
+                        foreach(string key in keys)
+                        {
+                            try
+                            {
+                                Console.WriteLine($"Gene:{idens[key]}\tEnsembl ID:{key}\tWeight:{original[key].ToString()}");
+                                sw.WriteLine($"{idens[key]},{key},{original[key]}");
+                            }
+                            catch
+                            {
+                                Console.WriteLine($"Key: {key} was not identified in one or all of the Dictionary objects.");
+                            }
+                        }
+                    }
+                }
             }
 
         }
