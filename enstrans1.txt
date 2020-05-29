@@ -1,0 +1,151 @@
+ENSEMBL_GENE_ID	Name	Species
+ENSG00000115307	ancient ubiquitous protein 1(AUP1)	Homo sapiens
+ENSG00000198939	ZFP2 zinc finger protein(ZFP2)	Homo sapiens
+ENSG00000125731	SH2 domain containing 3A(SH2D3A)	Homo sapiens
+ENSG00000106236	neuronal pentraxin 2(NPTX2)	Homo sapiens
+ENSG00000143774	guanylate kinase 1(GUK1)	Homo sapiens
+ENSG00000168038	unc-51 like kinase 4(ULK4)	Homo sapiens
+ENSG00000136237	Rap guanine nucleotide exchange factor 5(RAPGEF5)	Homo sapiens
+ENSG00000035928	replication factor C subunit 1(RFC1)	Homo sapiens
+ENSG00000143067	zinc finger protein 697(ZNF697)	Homo sapiens
+ENSG00000104341	lysosomal protein transmembrane 4 beta(LAPTM4B)	Homo sapiens
+ENSG00000157423	HYDIN, axonemal central pair apparatus protein(HYDIN)	Homo sapiens
+ENSG00000083857	FAT atypical cadherin 1(FAT1)	Homo sapiens
+ENSG00000164736	SRY-box 17(SOX17)	Homo sapiens
+ENSG00000163406	solute carrier family 15 member 2(SLC15A2)	Homo sapiens
+ENSG00000125037	ER membrane protein complex subunit 3(EMC3)	Homo sapiens
+ENSG00000071626	DAZ associated protein 1(DAZAP1)	Homo sapiens
+ENSG00000077514	DNA polymerase delta 3, accessory subunit(POLD3)	Homo sapiens
+ENSG00000108175	zinc finger MIZ-type containing 1(ZMIZ1)	Homo sapiens
+ENSG00000107175	cAMP responsive element binding protein 3(CREB3)	Homo sapiens
+ENSG00000167664	transmembrane and immunoglobulin domain containing 2(TMIGD2)	Homo sapiens
+ENSG00000115464	ubiquitin specific peptidase 34(USP34)	Homo sapiens
+ENSG00000142544	cytosolic thiouridylase subunit 1(CTU1)	Homo sapiens
+ENSG00000129255	mannose-P-dolichol utilization defect 1(MPDU1)	Homo sapiens
+ENSG00000114573	ATPase H+ transporting V1 subunit A(ATP6V1A)	Homo sapiens
+ENSG00000143390	regulatory factor X5(RFX5)	Homo sapiens
+ENSG00000131018	spectrin repeat containing nuclear envelope protein 1(SYNE1)	Homo sapiens
+ENSG00000145569	family with sequence similarity 105 member A(FAM105A)	Homo sapiens
+ENSG00000135924	DnaJ heat shock protein family (Hsp40) member B2(DNAJB2)	Homo sapiens
+ENSG00000075643	molybdenum cofactor sulfurase(MOCOS)	Homo sapiens
+ENSG00000142538	parathyroid hormone 2(PTH2)	Homo sapiens
+ENSG00000140548	zinc finger protein 710(ZNF710)	Homo sapiens
+ENSG00000132692	brevican(BCAN)	Homo sapiens
+ENSG00000109851	developing brain homeobox 1(DBX1)	Homo sapiens
+ENSG00000118849	retinoic acid receptor responder 1(RARRES1)	Homo sapiens
+ENSG00000184012	transmembrane protease, serine 2(TMPRSS2)	Homo sapiens
+ENSG00000198889	DDB1 and CUL4 associated factor 12 like 1(DCAF12L1)	Homo sapiens
+ENSG00000077800	FK506 binding protein 6(FKBP6)	Homo sapiens
+ENSG00000135679	MDM2 proto-oncogene(MDM2)	Homo sapiens
+ENSG00000106628	DNA polymerase delta 2, accessory subunit(POLD2)	Homo sapiens
+ENSG00000197880	myelodysplastic syndrome 2 translocation associated(MDS2)	Homo sapiens
+ENSG00000126804	zinc finger and BTB domain containing 1(ZBTB1)	Homo sapiens
+ENSG00000123388	homeobox C11(HOXC11)	Homo sapiens
+ENSG00000197106	solute carrier family 6 member 17(SLC6A17)	Homo sapiens
+ENSG00000152591	dentin sialophosphoprotein(DSPP)	Homo sapiens
+ENSG00000006128	tachykinin precursor 1(TAC1)	Homo sapiens
+ENSG00000084234	amyloid beta precursor like protein 2(APLP2)	Homo sapiens
+ENSG00000142178	salt inducible kinase 1(SIK1)	Homo sapiens
+ENSG00000099949	leucine zipper like transcription regulator 1(LZTR1)	Homo sapiens
+ENSG00000026559	potassium voltage-gated channel modifier subfamily G member 1(KCNG1)	Homo sapiens
+ENSG00000127337	YEATS domain containing 4(YEATS4)	Homo sapiens
+ENSG00000145982	phenylalanyl-tRNA synthetase 2, mitochondrial(FARS2)	Homo sapiens
+ENSG00000085117	CD82 molecule(CD82)	Homo sapiens
+ENSG00000185666	synapsin III(SYN3)	Homo sapiens
+ENSG00000198715	glycosylated lysosomal membrane protein(GLMP)	Homo sapiens
+ENSG00000047932	golgi associated PDZ and coiled-coil motif containing(GOPC)	Homo sapiens
+ENSG00000185689	chromosome 6 open reading frame 201(C6orf201)	Homo sapiens
+ENSG00000160679	chromatin target of PRMT1(CHTOP)	Homo sapiens
+ENSG00000127318	interleukin 22(IL22)	Homo sapiens
+ENSG00000198900	topoisomerase (DNA) I(TOP1)	Homo sapiens
+ENSG00000111554	Mdm1 nuclear protein(MDM1)	Homo sapiens
+ENSG00000122547	endonuclease/exonuclease/phosphatase family domain containing 1(EEPD1)	Homo sapiens
+ENSG00000108829	leucine rich repeat containing 59(LRRC59)	Homo sapiens
+ENSG00000132388	ubiquitin conjugating enzyme E2 G1(UBE2G1)	Homo sapiens
+ENSG00000080839	RB transcriptional corepressor like 1(RBL1)	Homo sapiens
+ENSG00000087470	dynamin 1 like(DNM1L)	Homo sapiens
+ENSG00000197044	zinc finger protein 441(ZNF441)	Homo sapiens
+ENSG00000092094	O-sialoglycoprotein endopeptidase(OSGEP)	Homo sapiens
+ENSG00000198887	structural maintenance of chromosomes 5(SMC5)	Homo sapiens
+ENSG00000174233	adenylate cyclase 6(ADCY6)	Homo sapiens
+ENSG00000100997	abhydrolase domain containing 12(ABHD12)	Homo sapiens
+ENSG00000006007	glycerophosphodiester phosphodiesterase 1(GDE1)	Homo sapiens
+ENSG00000137819	progestin and adipoQ receptor family member 5(PAQR5)	Homo sapiens
+ENSG00000137601	NIMA related kinase 1(NEK1)	Homo sapiens
+ENSG00000172046	ubiquitin specific peptidase 19(USP19)	Homo sapiens
+ENSG00000089159	paxillin(PXN)	Homo sapiens
+ENSG00000048828	family with sequence similarity 120A(FAM120A)	Homo sapiens
+ENSG00000108823	sarcoglycan alpha(SGCA)	Homo sapiens
+ENSG00000135406	peripherin(PRPH)	Homo sapiens
+ENSG00000169507	solute carrier family 38 member 11(SLC38A11)	Homo sapiens
+ENSG00000196233	chromosome 10 open reading frame 12(C10orf12)	Homo sapiens
+ENSG00000212916	microtubule associated protein 10(MAP10)	Homo sapiens
+ENSG00000116977	galectin 8(LGALS8)	Homo sapiens
+ENSG00000160791	C-C motif chemokine receptor 5 (gene/pseudogene)(CCR5)	Homo sapiens
+ENSG00000167302	TEPSIN, adaptor related protein complex 4 accessory protein(TEPSIN)	Homo sapiens
+ENSG00000244411	keratin associated protein 5-7(KRTAP5-7)	Homo sapiens
+ENSG00000087250	metallothionein 3(MT3)	Homo sapiens
+ENSG00000158711	ELK4, ETS transcription factor(ELK4)	Homo sapiens
+ENSG00000135686	kelch like family member 36(KLHL36)	Homo sapiens
+ENSG00000140382	high mobility group 20A(HMG20A)	Homo sapiens
+ENSG00000177476	olfactory receptor family 2 subfamily G member 3(OR2G3)	Homo sapiens
+ENSG00000172380	G protein subunit gamma 12(GNG12)	Homo sapiens
+ENSG00000132749	testis expressed metallothionein like protein(TESMIN)	Homo sapiens
+ENSG00000198841	KTI12 chromatin associated homolog(KTI12)	Homo sapiens
+ENSG00000138081	F-box protein 11(FBXO11)	Homo sapiens
+ENSG00000111344	RAS protein activator like 1(RASAL1)	Homo sapiens
+ENSG00000164694	fibronectin type III domain containing 1(FNDC1)	Homo sapiens
+ENSG00000062096	arylsulfatase F(ARSF)	Homo sapiens
+ENSG00000026036	RTEL1-TNFRSF6B readthrough (NMD candidate)(RTEL1-TNFRSF6B)	Homo sapiens
+ENSG00000245534	RORA antisense RNA 1(RORA-AS1)	Homo sapiens
+ENSG00000002834	LIM and SH3 protein 1(LASP1)	Homo sapiens
+ENSG00000197536	chromosome 5 open reading frame 56(C5orf56)	Homo sapiens
+ENSG00000198700	importin 9(IPO9)	Homo sapiens
+ENSG00000168546	GDNF family receptor alpha 2(GFRA2)	Homo sapiens
+ENSG00000115459	ELMO domain containing 3(ELMOD3)	Homo sapiens
+ENSG00000186350	retinoid X receptor alpha(RXRA)	Homo sapiens
+ENSG00000108666	chromosome 17 open reading frame 75(C17orf75)	Homo sapiens
+ENSG00000172765	transmembrane and coiled-coil domain family 1(TMCC1)	Homo sapiens
+ENSG00000110921	mevalonate kinase(MVK)	Homo sapiens
+ENSG00000113141	microRNA 3655(MIR3655)	Homo sapiens
+ENSG00000137331	immediate early response 3(IER3)	Homo sapiens
+ENSG00000099953	matrix metallopeptidase 11(MMP11)	Homo sapiens
+ENSG00000166743	acyl-CoA synthetase medium-chain family member 1(ACSM1)	Homo sapiens
+ENSG00000142102	protein-glucosylgalactosylhydroxylysine glucosidase(PGGHG)	Homo sapiens
+ENSG00000039123	Ski2 like RNA helicase 2(SKIV2L2)	Homo sapiens
+ENSG00000111536	interleukin 26(IL26)	Homo sapiens
+ENSG00000100982	PDX1 C-terminal inhibiting factor 1(PCIF1)	Homo sapiens
+ENSG00000140527	WD repeat domain 93(WDR93)	Homo sapiens
+ENSG00000110104	coiled-coil domain containing 86(CCDC86)	Homo sapiens
+ENSG00000198039	zinc finger protein 273(ZNF273)	Homo sapiens
+ENSG00000108306	F-box and leucine rich repeat protein 20(FBXL20)	Homo sapiens
+ENSG00000156509	F-box protein 43(FBXO43)	Homo sapiens
+ENSG00000163568	absent in melanoma 2(AIM2)	Homo sapiens
+ENSG00000104808	dihydrodiol dehydrogenase(DHDH)	Homo sapiens
+ENSG00000115415	signal transducer and activator of transcription 1(STAT1)	Homo sapiens
+ENSG00000116586	late endosomal/lysosomal adaptor, MAPK and MTOR activator 2(LAMTOR2)	Homo sapiens
+ENSG00000096395	motilin(MLN)	Homo sapiens
+ENSG00000099203	transmembrane p24 trafficking protein 1(TMED1)	Homo sapiens
+ENSG00000104369	junctophilin 1(JPH1)	Homo sapiens
+ENSG00000174446	small nuclear RNA activating complex polypeptide 5(SNAPC5)	Homo sapiens
+ENSG00000102805	ceroid-lipofuscinosis, neuronal 5(CLN5)	Homo sapiens
+ENSG00000124102	peptidase inhibitor 3(PI3)	Homo sapiens
+ENSG00000198805	purine nucleoside phosphorylase(PNP)	Homo sapiens
+ENSG00000103995	centrosomal protein 152(CEP152)	Homo sapiens
+ENSG00000117091	CD48 molecule(CD48)	Homo sapiens
+ENSG00000147081	A-kinase anchoring protein 4(AKAP4)	Homo sapiens
+ENSG00000143674	mixed lineage kinase 4(MLK4)	Homo sapiens
+ENSG00000111596	CCR4-NOT transcription complex subunit 2(CNOT2)	Homo sapiens
+ENSG00000046774	MAGE family member C2(MAGEC2)	Homo sapiens
+	ENSG00000259418		
+	ENSG00000242266		
+	ENSG00000241975		
+	ENSG00000150175		
+	ENSG00000131982		
+	ENSG00000198787		
+	ENSG00000176659		
+	ENSG00000108958		
+	ENSG00000142163		
+	ENSG00000181227		
+	ENSG00000197258		
+	ENSG00000210100		

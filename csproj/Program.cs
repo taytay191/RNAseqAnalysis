@@ -25,6 +25,7 @@ namespace RNAseq_Data_Analysis
         private static string artpath = @"C:\Programs\RNAseqAnalysis\artlist.csv";
         private static string weightpath = @"C:\Programs\RNAseqAnalysis\weights.csv";
         public static int interval = 100;
+        private static string transferpath = @"C:\Programs\RNAseqAnalysis\keylist.txt";
 
         static void Main(string[] Arguments)
         {
@@ -94,15 +95,24 @@ namespace RNAseq_Data_Analysis
         static void Predanalysis()
         {
             File.Delete(weightpath);
+            File.Delete(transferpath);
             string[] og = File.ReadAllLines(wspath);
             Dictionary<string, double> dep = new Dictionary<string,double>();
             foreach(string s in og)
             {
                 string[] temp = s.Split(",");
-                dep.Add(temp[0], Convert.ToDouble(temp[1]));
+                try
+                {
+                    dep.Add(temp[0].Split('.')[0], Convert.ToDouble(temp[1]));
+                }
+                catch
+                {
+                    dep.Add(temp[0], Convert.ToDouble(temp[1]));
+                }
                 //Console.WriteLine(temp[0]);
             }
             double survival = dep["Original"];
+//            double survival = 14.166;
             List<string> keylist = new List<string>(dep.Keys);
             int arraylength = Convert.ToInt32(keylist.Count);
             for (int i = 0; i < arraylength; i++)
@@ -120,11 +130,18 @@ namespace RNAseq_Data_Analysis
             }
             int itemp=1;
             var org = from pair in dep orderby Math.Abs(pair.Value) descending select pair;
+            using (StreamWriter sw= File.CreateText(transferpath))
+            {
+                foreach (var pair in org)
+                {
+                    sw.WriteLine($"{pair.Key}, ");
+                }
+            }
             using (StreamWriter sw = File.CreateText(weightpath))
             {
                 foreach (var pair in org)
                 {
-                    Console.WriteLine($"Position: {itemp.ToString()}\tGene Name: {pair.Key}  Change in Survival: {pair.Value.ToString()}");
+                    //Console.WriteLine($"Position: {itemp.ToString()}\tGene Name: {pair.Key}  Change in Survival: {pair.Value.ToString()}");
                     sw.WriteLine($"{pair.Key},{pair.Value.ToString()}");
                     itemp++;
                 }
@@ -447,7 +464,9 @@ namespace RNAseq_Data_Analysis
         }
         static void Pycontroller ()
         {
-            string stdErr = "None";
+            string stdOut, stdErr = "None";
+            File.Delete(wspath);
+            using(File.Create(wspath)) {}
             using (var proc = new Process())
             {
                 try
@@ -458,9 +477,9 @@ namespace RNAseq_Data_Analysis
                     var patharg1 = datapath;
                     int arraysize = artlength();
                     procsi.Arguments = string.Format("\"{0}\" \"{1}\" \"{2}\" \"{3}\" \"{4}\" \"{5}\"", script, datapath, genpath, wspath, arraysize, artpath);
-                    procsi.CreateNoWindow = true;
+                    procsi.CreateNoWindow = false;
                     procsi.UseShellExecute = false;
-                    procsi.RedirectStandardOutput = false;
+                    procsi.RedirectStandardOutput = true;
                     procsi.RedirectStandardError = true;
                     procsi.RedirectStandardInput = true;
                     proc.StartInfo = procsi;
@@ -469,7 +488,8 @@ namespace RNAseq_Data_Analysis
                     proc.Start();
                     Console.WriteLine("Python Loading: Success");
                     stdErr = proc.StandardError.ReadToEnd();
-                    Console.WriteLine($"\tErrors: \n{stdErr}");
+                    stdOut = proc.StandardOutput.ReadToEnd();
+                    Console.WriteLine($"\tErrors: \n{stdErr}\n\tResults:\n{stdOut}");
                     pythonruntime.Stop();
                     Console.WriteLine($"\tPython Run-Time:\nHours: {pythonruntime.Elapsed.Hours}\nMinutes: {pythonruntime.Elapsed.Minutes}\nSeconds: {pythonruntime.Elapsed.Seconds}");
 
