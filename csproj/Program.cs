@@ -31,8 +31,7 @@ namespace RNAseq_Data_Analysis
 
         static void Main(string[] Arguments)
         {
-            //logiccomplex(Arguments);
-            GOIDanalysis();
+            logiccomplex(Arguments);
         }
         static void logiccomplex(string[] Arguments)
         {
@@ -40,6 +39,32 @@ namespace RNAseq_Data_Analysis
             GenLogic(Arguments);
             Pythonlogic(Arguments);
             Weightlogic(Arguments);
+            GOIDlogic(Arguments);
+        }
+        static void GOIDlogic(string[] arguments)
+        {
+            string arguse = "";
+            try
+            {
+                arguse = arguments[4];
+            }
+            catch
+            {
+                Console.WriteLine("Error in argumentation for GOID Logic process, reloading.");
+                string[] temp = new string[4];
+                temp[4] = "";
+                GOIDlogic(temp);
+            }
+            if (arguse == "run")
+            {
+                Console.WriteLine("Running GOID Analysis sequence.");
+                GOIDanalysis();
+            }
+            else if(arguse == "skip")
+            {
+
+            }
+
         }
         static void GOIDanalysis()
         {
@@ -58,6 +83,7 @@ namespace RNAseq_Data_Analysis
             {
                 string[] temp1 = File.ReadAllLines(s);
                 string UUID = Getgoid(s);
+                Console.WriteLine($"GO ID: {UUID} found. \t{(temp1.Length-1).ToString()} potential genes identified");
                 string path = $"{godir}\\{UUID}.csv";
                 Dictionary<string, string> idens = new Dictionary<string, string>();
                 foreach (string d in temp1)
@@ -76,7 +102,7 @@ namespace RNAseq_Data_Analysis
                         {
                             try
                             {
-                                Console.WriteLine($"Gene:{idens[key]}\tEnsembl ID:{key}\tWeight:{original[key].ToString()}");
+//                                Console.WriteLine($"Gene:{idens[key]}\tEnsembl ID:{key}\tWeight:{original[key].ToString()}");
                                 sw.WriteLine($"{idens[key]},{key},{original[key]}");
                             }
                             catch
