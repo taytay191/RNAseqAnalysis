@@ -26,6 +26,7 @@ namespace RNAseq_Data_Analysis
         private static string weightpath = @"C:\Programs\RNAseqAnalysis\weights.csv";
         public static int interval = 100;
         private static string transferpath = @"C:\Programs\RNAseqAnalysis\keylist.txt";
+        private static string gopath = @"C:\Programs\RNAseqAnalysis\GOID";
 
         static void Main(string[] Arguments)
         {
@@ -37,6 +38,10 @@ namespace RNAseq_Data_Analysis
             GenLogic(Arguments);
             Pythonlogic(Arguments);
             Weightlogic(Arguments);
+        }
+        static void GOIDanalysis()
+        {
+
         }
         static void Weightlogic(string[] Argument)
         {
