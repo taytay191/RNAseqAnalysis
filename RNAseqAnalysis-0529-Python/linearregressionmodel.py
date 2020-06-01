@@ -21,34 +21,29 @@ def main():
             for s in range(0,batchsize):
                 data_writer.writerow([tname.iloc[s], pred[s]])
     def getapreds(batchsize,path,x, multi, ob):
-        #print(multi, x)
+        df = pandas.read_csv(path, header = 0, skiprows =range(1,(x*batchsize)), nrows = batchsize)
+        tname.append(df["Changed ID"])
+        inputs = df.drop(["Changed ID"], axis = 1)
         processes = []
-        tname = []
+        tnamearray = []
         quant = batchsize//multi
         rem = batchsize%multi
-#        print((x*ob)+(multi*quant))
         with concurrent.futures.ThreadPoolExecutor() as executor:
             for y in range(0, multi):
-                df = pandas.read_csv(path, header = 0, skiprows =range(1,(x*batchsize)+(y*quant)), nrows = quant)
-                tname.append(df["Changed ID"])
-                inputs = df.drop(["Changed ID"], axis = 1)
-                #print(inputs)
-                #print(df["Changed ID"])
-                p = executor.submit(pred,inputs)
+                p = executor.submit(pred,inputs[y*quant,(y+1)*quant])
                 processes.append(p)
+                temp = tname[y*quant,(y+1)*quant]
+                tnamearray.append(temp)
             for z in range(0,multi):
-                tempname = tname[z]
+                tempname = tnamearray[z]
                 temp = processes[z].result()
-                #print(tempname, temp)
                 write(tempname, temp, quant)
             if (rem > 0):
-                #print("F.Python6")
                 dfrem = pandas.read_csv(path, header = 0, skiprows= range(1, (x*ob) +(multi*quant)), nrows = rem)
                 remname = dfrem["Changed ID"]
                 reminputs = dfrem.drop(["Changed ID"], axis = 1)
                 remout = reg.predict(reminputs)
                 write(remname, remout, rem)
-#    print("F.Python2")
     data = pandas.read_csv(str(sys.argv[1]))
     valdata = pandas.read_csv(str(sys.argv[6]))
     print("Data Collection: Success")
@@ -69,10 +64,8 @@ def main():
     fullbatchnum = totrows//batchsizemod
     rem = totrows%batchsizemod
     maxrem = fullbatchnum*batchsizemod
-#    print(maxrem, rem, fullbatchnum)
-    # print("F.Python3")
-    # for x in range(0, 1):
-    #     getapreds(batchsizemod,str(sys.argv[2]), x, multi, batchsizemod)
+    for x in range(0, 1):
+        getapreds(batchsizemod,str(sys.argv[2]), x, multi, batchsizemod)
     #getapreds(rem, str(sys.argv[2]), fullbatchnum, multi, batchsizemod)
 
 

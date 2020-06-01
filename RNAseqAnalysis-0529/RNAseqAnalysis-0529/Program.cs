@@ -65,6 +65,10 @@ namespace RNAseqAnalysis_0529
                     {
                         PythonInterface.Linregpython(cfg); 
                     }
+                    if(cfg.ModelOption == "Keras1")
+                    {
+
+                    }
                     break;
 
                 case "goid":

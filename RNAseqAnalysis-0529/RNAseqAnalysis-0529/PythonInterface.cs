@@ -8,7 +8,7 @@ namespace RNAseqAnalysis_0529
 {
     class PythonInterface
     {
-        private static string pythonpath = @"C:\Users\tjmcg\AppData\Local\Programs\Python\Python38-32\python.exe";
+        private static string pythonpath = @"C:\Users\tjmcg\AppData\Local\Programs\Python\Python38\python.exe";
         public static void Linregpython(Configurator cfg)
         {
             string stdOut, stdErr = "None";
