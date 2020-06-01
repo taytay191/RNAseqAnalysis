@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Th62tYC/MoyyJz8PEEkw1jRoiw3mp+xzhF/xcKHsXR6LOEuoXLIl02hIfCvF0SS6GKE4ZI+iW7u4UlJaQmoqHA==",
+  "success": true,
+  "projectFilePath": "C:\\Code\\RNAseqAnalysis-0529\\RNAseqAnalysis-0529\\RNAseqAnalysis-0529.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tjmcg\\.nuget\\packages\\commandlineparser\\2.8.0\\commandlineparser.2.8.0.nupkg.sha512"
+  ],
+  "logs": []
+}

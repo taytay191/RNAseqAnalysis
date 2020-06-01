@@ -1,0 +1,15 @@
+C:\Code\RNAseqAnalysis-0529\RNAseqAnalysis-0529\bin\x64\Debug\netcoreapp3.1\RNAseqAnalysis-0529.exe
+C:\Code\RNAseqAnalysis-0529\RNAseqAnalysis-0529\bin\x64\Debug\netcoreapp3.1\RNAseqAnalysis-0529.deps.json
+C:\Code\RNAseqAnalysis-0529\RNAseqAnalysis-0529\bin\x64\Debug\netcoreapp3.1\RNAseqAnalysis-0529.runtimeconfig.json
+C:\Code\RNAseqAnalysis-0529\RNAseqAnalysis-0529\bin\x64\Debug\netcoreapp3.1\RNAseqAnalysis-0529.runtimeconfig.dev.json
+C:\Code\RNAseqAnalysis-0529\RNAseqAnalysis-0529\bin\x64\Debug\netcoreapp3.1\RNAseqAnalysis-0529.dll
+C:\Code\RNAseqAnalysis-0529\RNAseqAnalysis-0529\bin\x64\Debug\netcoreapp3.1\RNAseqAnalysis-0529.pdb
+C:\Code\RNAseqAnalysis-0529\RNAseqAnalysis-0529\obj\x64\Debug\netcoreapp3.1\RNAseqAnalysis-0529.AssemblyInfoInputs.cache
+C:\Code\RNAseqAnalysis-0529\RNAseqAnalysis-0529\obj\x64\Debug\netcoreapp3.1\RNAseqAnalysis-0529.AssemblyInfo.cs
+C:\Code\RNAseqAnalysis-0529\RNAseqAnalysis-0529\obj\x64\Debug\netcoreapp3.1\RNAseqAnalysis-0529.dll
+C:\Code\RNAseqAnalysis-0529\RNAseqAnalysis-0529\obj\x64\Debug\netcoreapp3.1\RNAseqAnalysis-0529.pdb
+C:\Code\RNAseqAnalysis-0529\RNAseqAnalysis-0529\obj\x64\Debug\netcoreapp3.1\RNAseqAnalysis-0529.genruntimeconfig.cache
+C:\Code\RNAseqAnalysis-0529\RNAseqAnalysis-0529\bin\x64\Debug\netcoreapp3.1\CommandLine.dll
+C:\Code\RNAseqAnalysis-0529\RNAseqAnalysis-0529\obj\x64\Debug\netcoreapp3.1\RNAseqAnalysis-0529.csprojAssemblyReference.cache
+C:\Code\RNAseqAnalysis-0529\RNAseqAnalysis-0529\obj\x64\Debug\netcoreapp3.1\RNAseqAnalysis-0529.csproj.CoreCompileInputs.cache
+C:\Code\RNAseqAnalysis-0529\RNAseqAnalysis-0529\obj\x64\Debug\netcoreapp3.1\RNAseqAnalysis-0529.csproj.CopyComplete
