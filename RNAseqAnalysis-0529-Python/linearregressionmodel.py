@@ -14,25 +14,25 @@ def main():
         pred = reg.predict(inputs)
         return pred
     def write(tname, pred, batchsize):
-#        print("F.Python5")
         with open(str(sys.argv[3]), mode='a', newline='') as data_file:
             data_writer = csv.writer(data_file, delimiter=",")
-            #print(batchsize)
             for s in range(0,batchsize):
                 data_writer.writerow([tname.iloc[s], pred[s]])
     def getapreds(batchsize,path,x, multi, ob):
         df = pandas.read_csv(path, header = 0, skiprows =range(1,(x*batchsize)), nrows = batchsize)
-        tname.append(df["Changed ID"])
+        tname = df["Changed ID"]
         inputs = df.drop(["Changed ID"], axis = 1)
         processes = []
         tnamearray = []
         quant = batchsize//multi
         rem = batchsize%multi
+#        print(inputs.iloc[0:3, 0:inputs.shape[1]])
+#        print(inputs.shape)
         with concurrent.futures.ThreadPoolExecutor() as executor:
             for y in range(0, multi):
-                p = executor.submit(pred,inputs[y*quant,(y+1)*quant])
+                p = executor.submit(pred,inputs.iloc[y*quant:(y+1)*quant,0:inputs.shape[1]])
                 processes.append(p)
-                temp = tname[y*quant,(y+1)*quant]
+                temp = tname.iloc[y*quant:(y+1)*quant]
                 tnamearray.append(temp)
             for z in range(0,multi):
                 tempname = tnamearray[z]
@@ -59,17 +59,16 @@ def main():
     print ("Model Training: Success")
     totrows = int(sys.argv[4])
 #    print(totrows)
-    batchsizemod = 1250
+    batchsizemod = 2000
     multi = 5
     fullbatchnum = totrows//batchsizemod
     rem = totrows%batchsizemod
     maxrem = fullbatchnum*batchsizemod
-    for x in range(0, 1):
+    for x in range(0, fullbatchnum):
         getapreds(batchsizemod,str(sys.argv[2]), x, multi, batchsizemod)
-    #getapreds(rem, str(sys.argv[2]), fullbatchnum, multi, batchsizemod)
+    getapreds(rem, str(sys.argv[2]), fullbatchnum, multi, batchsizemod)
 
 
 if __name__ == "__main__":
-#    print("F.Python1")
     main()
 

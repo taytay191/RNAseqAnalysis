@@ -29,6 +29,12 @@ namespace RNAseqAnalysis_0529
             HelpText = "Available actions: clean, goid, genmoddata, runmodel ... ")]
         public string ActionOption { get; set; }
 
+        [Option("Keras1path",
+            Default = @"C:\Code\RNAseqAnalysis-0529-Python\kerasmodel1.py",
+            Required = false,
+            HelpText = "Path for the first Keras model in python")]
+        public string Keras1path { get; set; }
+
         [Option("model",
             Default = "regression",
             Required = false,

@@ -21,6 +21,7 @@ namespace RNAseqAnalysis_0529
         public string transferpath { get; set; }
         public string valdatapath { get; set; }
         public string valpatientdir { get; set; }
+        public string keras1path { get; set; }
     }
 
     class Program
@@ -45,6 +46,7 @@ namespace RNAseqAnalysis_0529
                 cfg.transferpath = o.transferpath;
                 cfg.valdatapath = o.valdatapath;
                 cfg.valpatientdir = o.valpatientdir;
+                cfg.keras1path = o.Keras1path;
                 cfg.genpath = @"C:\Code\RNASeqData\generateddata\Modulated\generateddata(" + cfg.Interval + "fold).csv";
                 cfg.predpath = @"C:\Code\RNASeqData\generateddata\survival\Predsurvival(" + cfg.Interval + "fold).csv";
                 cfg.weightpath = @"C:\Code\RNASeqData\generateddata\weighted\weights(" + cfg.Interval + "fold).csv";
