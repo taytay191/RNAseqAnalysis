@@ -7,6 +7,7 @@ from numpy import array
 import sys
 import sklearn
 from sklearn import linear_model
+from sklearn.model_selection import train_test_split
 import threading
 
 def main():
@@ -49,10 +50,11 @@ def main():
     print("Data Collection: Success")
     X = data.drop(["UUID", "Survival"], axis = 1)
     Y = data.Survival
-    Xval = valdata.drop(["UUID","Survival"], axis = 1)
-    Yval = valdata.Survival
+    X_train, Xval, Y_train, Yval = train_test_split(X, Y, test_size = .1)
+    # Xval = valdata.drop(["UUID","Survival"], axis = 1)
+    # Yval = valdata.Survival
     print("Data Construction: Success")
-    reg = linear_model.LinearRegression().fit(X, Y)
+    reg = linear_model.LinearRegression().fit(X_train, Y_train)
     Ypred = reg.predict(Xval)
     rscore = sklearn.metrics.r2_score(Yval, Ypred)
     print("R Squared Value: " +str(rscore))

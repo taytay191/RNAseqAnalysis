@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using Microsoft.VisualBasic;
+using System;
 
 namespace RNAseqAnalysis_0529
 {
@@ -19,8 +20,6 @@ namespace RNAseqAnalysis_0529
         public string weightpath { get; set; }
         public string godir { get; set; }
         public string transferpath { get; set; }
-        public string valdatapath { get; set; }
-        public string valpatientdir { get; set; }
         public string keras1path { get; set; }
     }
 
@@ -44,8 +43,6 @@ namespace RNAseqAnalysis_0529
                 cfg.linregpath = o.linregpath;
                 cfg.godir = o.godir;
                 cfg.transferpath = o.transferpath;
-                cfg.valdatapath = o.valdatapath;
-                cfg.valpatientdir = o.valpatientdir;
                 cfg.keras1path = o.Keras1path;
                 cfg.genpath = @"C:\Code\RNASeqData\generateddata\Modulated\generateddata(" + cfg.Interval + "fold).csv";
                 cfg.predpath = @"C:\Code\RNASeqData\generateddata\survival\Predsurvival(" + cfg.Interval + "fold).csv";
@@ -67,9 +64,9 @@ namespace RNAseqAnalysis_0529
                     {
                         PythonInterface.Linregpython(cfg); 
                     }
-                    if(cfg.ModelOption == "Keras1")
+                    if(cfg.ModelOption == "deep")
                     {
-
+                        PythonInterface.Keras1Python(cfg);
                     }
                     break;
 

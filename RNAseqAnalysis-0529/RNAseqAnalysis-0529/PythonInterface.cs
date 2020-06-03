@@ -32,7 +32,7 @@ namespace RNAseqAnalysis_0529
                     var patharg1 = cfg.datapath;
                     int arraysize = Util.artlength(cfg);
 //                    Console.WriteLine(arraysize.ToString());
-                    procsi.Arguments = string.Format("\"{0}\" \"{1}\" \"{2}\" \"{3}\" \"{4}\" \"{5}\" \"{6}\"", script, cfg.datapath, cfg.genpath, cfg.predpath, arraysize, cfg.attrpath, cfg.valdatapath);
+                    procsi.Arguments = string.Format("\"{0}\" \"{1}\" \"{2}\" \"{3}\" \"{4}\" \"{5}\" ", script, cfg.datapath, cfg.genpath, cfg.predpath, arraysize, cfg.attrpath);
                     procsi.CreateNoWindow = false;
                     procsi.UseShellExecute = false;
                     procsi.RedirectStandardOutput = true;
@@ -45,7 +45,7 @@ namespace RNAseqAnalysis_0529
                     Console.WriteLine("Python Loading: Success");
                     string stdErr = proc.StandardError.ReadToEnd();
                     string stdOut = proc.StandardOutput.ReadToEnd();
-                    Console.WriteLine($"\tErrors: \n{stdErr}\n\tResults:\n{stdOut}");
+                    Console.WriteLine($"\tResults:\n{stdOut}");
                     pythonruntime.Stop();
                     Console.WriteLine($"\tPython Run-Time:\nHours: {pythonruntime.Elapsed.Hours}\nMinutes: {pythonruntime.Elapsed.Minutes}\nSeconds: {pythonruntime.Elapsed.Seconds}");
 
@@ -56,7 +56,7 @@ namespace RNAseqAnalysis_0529
                 }
             }
         }
-        public void Keras1Python (Configurator cfg)
+        public static void Keras1Python (Configurator cfg)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace RNAseqAnalysis_0529
                     ProcessStartInfo procsci = new ProcessStartInfo();
                     procsci.FileName = pythonpath;
                     var script = cfg.keras1path;
-                    procsci.Arguments = string.Format("\"{0}\"\"{1}\"\"{2}\"", script, cfg.datapath, cfg.valdatapath);
+                    procsci.Arguments = string.Format("\"{0}\"", script);
                     procsci.CreateNoWindow = true;
                     procsci.UseShellExecute = false;
                     procsci.RedirectStandardOutput = true;
@@ -84,10 +84,10 @@ namespace RNAseqAnalysis_0529
                     Stopwatch pythonruntime = new Stopwatch();
                     pythonruntime.Start();
                     proc.Start();
-                    Console.WriteLine("Python Loading Sucess");
+                    Console.WriteLine("Python Loading Success");
                     string stdErr = proc.StandardError.ReadToEnd();
                     string stdOut = proc.StandardOutput.ReadToEnd();
-                    Console.WriteLine($"\tErrors:\n{stdErr}\n\tResults:\n{stdOut}");
+                    Console.WriteLine($"\tResults:\n{stdOut}");
                     pythonruntime.Stop();
                     Console.WriteLine($"\tPython Run-Time:\nHours: {pythonruntime.Elapsed.Hours}\nMinutes: {pythonruntime.Elapsed.Minutes}\nSeconds: {pythonruntime.Elapsed.Seconds}");
                 }

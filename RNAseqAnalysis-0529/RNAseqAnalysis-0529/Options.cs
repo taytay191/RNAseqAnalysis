@@ -5,7 +5,7 @@ namespace RNAseqAnalysis_0529
     class Options
     {
         [Option("linregpath",
-        Default = @"C:\Code\RNAseqAnalysis-0529-Python\linearregressionmodel.py",
+        Default = @"C:\Code\RNAseqAnalysis-0529-Python\linearregressionmodel1.py",
         Required = false,
         HelpText = "Path to Python Linear Regression Script")]
         public string linregpath { get; set; }
@@ -30,13 +30,13 @@ namespace RNAseqAnalysis_0529
         public string ActionOption { get; set; }
 
         [Option("Keras1path",
-            Default = @"C:\Code\RNAseqAnalysis-0529-Python\kerasmodel1.py",
+            Default = @"C:\Code\RNAseqAnalysis-0529-Python\kerasmodel2.py",
             Required = false,
             HelpText = "Path for the first Keras model in python")]
         public string Keras1path { get; set; }
 
         [Option("model",
-            Default = "regression",
+            Default = "deep",
             Required = false,
             HelpText = "available options: regression, keras1, keras2")]
         public string ModelOption { get; set; }
@@ -58,18 +58,6 @@ namespace RNAseqAnalysis_0529
             Required = false,
             HelpText = "Directory with Patient data loaded.")]
         public string patientdir { get; set; }
-
-        [Option("valpatientdir",
-        Default = @"C:\Code\RNASeqData\gdcpatientdata\Validation Data",
-        Required = false,
-        HelpText = "Directory with Patient data loaded.")]
-        public string valpatientdir { get; set; }
-
-        [Option("valdatapath",
-        Default = @"C:\Code\RNASeqData\generateddata\cleaned\valdata.csv",
-        Required = false,
-        HelpText = "Where to save cleaned data from raw patient data.")]
-        public string valdatapath { get; set; }
 
         [Option("datapath",
             Default = @"C:\Code\RNASeqData\generateddata\cleaned\data.csv",
