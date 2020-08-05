@@ -52,7 +52,8 @@ namespace RNAseqAnalysis_0529
             {
                 var temp = value.Split('\t');
                 Gene spec = new Gene();
-                spec.Name = temp[0];
+                var namecorrection = temp[0].Split('.');
+                spec.Name = namecorrection[0];
                 try
                 {
                     spec.Value = Convert.ToInt32(temp[1]);
@@ -65,7 +66,7 @@ namespace RNAseqAnalysis_0529
             }
             return info;
         }
-        public static List<string> FullAttrList(List<Patient> data, Configurator cfg, bool write)
+        public static List<string> FullAttrList(List<Patient> data)
         {
             List<string> comp = new List<string>();
 
@@ -80,20 +81,6 @@ namespace RNAseqAnalysis_0529
             }
 
             List<string> susinct = comp.Distinct().ToList();
-
-            //if (write == true)
-            //{
-            //    try
-            //    {
-            //        File.Delete(cfg.attrpath);
-            //        File.WriteAllLines(cfg.attrpath, susinct);
-            //    }
-            //    catch
-            //    {
-            //        File.WriteAllLines(cfg.attrpath, susinct);
-            //    }
-            //}
-            //string susinctstring = String.Join(",", susinct.ToArray());
             return susinct;
         }
         public static int artlength(Configurator cfg)

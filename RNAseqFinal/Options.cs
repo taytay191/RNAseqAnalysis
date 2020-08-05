@@ -22,5 +22,11 @@ namespace RNAseqAnalysis_0529
         HelpText = "Path to raw TCGA data")]
         public string CentData { get; set; }
 
+        [Option("GOIDDir",
+        Default = @"C:\Code\RNASeqAnalysis\Data\GOIDs",
+        Required = false,
+        HelpText = "Path to raw TCGA data")]
+        public string GOIDDir { get; set; }
+
     }
 }

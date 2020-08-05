@@ -22,6 +22,7 @@ namespace RNAseqFinal
         public string Survival { get; set; }
         public string RawDir { get; set; }
         public string CentData { get; set; }
+        public string GOIDDir { get; set; }
     }
     class Program
     {
@@ -34,9 +35,10 @@ namespace RNAseqFinal
                 cfg.Survival = o.Survival;
                 cfg.RawDir = o.RawDir;
                 cfg.CentData = o.CentData;
+                cfg.GOIDDir = o.GOIDDir;
             });
-
-            Cleaner.init(cfg);
+            
+            //Cleaner.init(cfg);
 
         }
     }
