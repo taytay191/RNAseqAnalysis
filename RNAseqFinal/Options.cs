@@ -4,16 +4,23 @@ namespace RNAseqAnalysis_0529
 {
     class Options
     {
-        [Option("ModelPath",
-        Default = @"C:\",
+        [Option("RawDir",
+        Default = @"C:\Code\RNASeqAnalysis\Data\RawDir",
         Required = false,
         HelpText = "Path to Python Model Script")]
-        public string ModelPath {get; set;}
+        public string RawDir {get; set;}
 
-        [Option("RawDir",
-        Default = @"C:\",
+        [Option("Survival",
+        Default = @"C:\Code\RNASeqAnalysis\Data\Survival.txt",
         Required = false,
         HelpText = "Path to raw TCGA data")]
-        public string RawDir { get; set; }
+        public string Survival { get; set; }
+
+        [Option("CentData",
+        Default = @"C:\Code\RNASeqAnalysis\Data\CentData.csv",
+        Required = false,
+        HelpText = "Path to raw TCGA data")]
+        public string CentData { get; set; }
+
     }
 }
