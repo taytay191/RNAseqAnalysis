@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "T4QVGsAvArxs7W/D0cViadrKfxMNL0zJsc7HmhsmpsMhAdD/sWCxaiFTLQkW8vBVVPUfFaajKSDRFq0B5KW00g==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\tjmcg\\source\\repos\\RNAseqFinal\\RNAseqFinal\\RNAseqFinal.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tjmcg\\.nuget\\packages\\microsoft.extensions.configuration\\3.1.6\\microsoft.extensions.configuration.3.1.6.nupkg.sha512",
+    "C:\\Users\\tjmcg\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\3.1.6\\microsoft.extensions.configuration.abstractions.3.1.6.nupkg.sha512",
+    "C:\\Users\\tjmcg\\.nuget\\packages\\microsoft.extensions.configuration.commandline\\3.1.6\\microsoft.extensions.configuration.commandline.3.1.6.nupkg.sha512",
+    "C:\\Users\\tjmcg\\.nuget\\packages\\microsoft.extensions.primitives\\3.1.6\\microsoft.extensions.primitives.3.1.6.nupkg.sha512",
+    "C:\\Users\\tjmcg\\.nuget\\packages\\nuget.commandline\\5.6.0\\nuget.commandline.5.6.0.nupkg.sha512"
+  ],
+  "logs": []
+}

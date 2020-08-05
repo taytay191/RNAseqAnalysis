@@ -1,0 +1,9 @@
+C:\Users\tjmcg\source\repos\RNAseqFinal\RNAseqFinal\bin\Debug\netcoreapp3.1\RNAseqFinal.exe
+C:\Users\tjmcg\source\repos\RNAseqFinal\RNAseqFinal\obj\Debug\netcoreapp3.1\RNAseqFinal.csprojAssemblyReference.cache
+C:\Users\tjmcg\source\repos\RNAseqFinal\RNAseqFinal\obj\Debug\netcoreapp3.1\RNAseqFinal.AssemblyInfoInputs.cache
+C:\Users\tjmcg\source\repos\RNAseqFinal\RNAseqFinal\obj\Debug\netcoreapp3.1\RNAseqFinal.AssemblyInfo.cs
+C:\Users\tjmcg\source\repos\RNAseqFinal\RNAseqFinal\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
+C:\Users\tjmcg\source\repos\RNAseqFinal\RNAseqFinal\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\tjmcg\source\repos\RNAseqFinal\RNAseqFinal\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.CommandLine.dll
+C:\Users\tjmcg\source\repos\RNAseqFinal\RNAseqFinal\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+C:\Users\tjmcg\source\repos\RNAseqFinal\RNAseqFinal\obj\Debug\netcoreapp3.1\RNAseqFinal.csproj.CopyComplete
