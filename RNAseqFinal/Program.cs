@@ -17,12 +17,19 @@ namespace RNAseqFinal
         public string Name { get; set; }
         public int Value { get; set; }
     }
+    public class GOID
+    {
+        public string UUID { get; set; }
+        public Dictionary<string, string> Genes = new Dictionary<string, string>();
+    }
+
     public class Configurator
     {
         public string Survival { get; set; }
         public string RawDir { get; set; }
         public string CentData { get; set; }
         public string GOIDDir { get; set; }
+        public List<GOID> GOIDs = new List<GOID>();
     }
     class Program
     {
@@ -37,8 +44,11 @@ namespace RNAseqFinal
                 cfg.CentData = o.CentData;
                 cfg.GOIDDir = o.GOIDDir;
             });
-            
+
             //Cleaner.init(cfg);
+            cfg = GOIDselection.Entry(cfg);
+            Console.WriteLine($"{cfg.GOIDs.Count} GOID(s) identified.");
+            Console.ReadKey();
 
         }
     }
